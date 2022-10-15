@@ -1,5 +1,3 @@
-
-
 $('#createBtn').click(function() {
     const files = $('#imageInput')[0].files;
     const description = $('#descriptionInput').val();
