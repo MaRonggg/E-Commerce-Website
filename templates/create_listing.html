@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+    create listing page
+{% endblock %}
+
+{% block head %}
+    <h2>Creating Listing</h2>
+{% endblock %}
+
+{% block body %}
+    <label for="imageInput">image: </label>
+    <input id="imageInput" type="file" name="image"><br/>
+    <label for="descriptionInput">description: </label>
+    <input id="descriptionInput" type="text" name="description"><br/>
+    <label for="priceInput">price: </label>
+    <input id="priceInput" type="text" name="price"><br/>
+    <button id="createBtn">create</button>
+    <div id="listings"></div>
+{% endblock %}
