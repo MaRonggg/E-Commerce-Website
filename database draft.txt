@@ -1,6 +1,6 @@
 User_accounts(user_id: int, password: str, email: str, name: str)
 
-Products (product_id: int, product_name: str, product_price: str)
+Products (product_id: int, product_name: str, product_price: double)
 
 Sales(sale_id: int, user_id: int, product_id: int)
 
