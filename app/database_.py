@@ -18,6 +18,8 @@ user_id_collection = db["user_id"]
 #     product_images: list[Path], product_description: str
 # )
 product_collection = db["product"]
+product_id_collection = db["product_id"]
+
 
 # Sale(sale_id: int, user_id: int, product_id_list: list[int])
 # primary_key -> sale_id, foreign_key -> user_id
@@ -32,15 +34,10 @@ order_collection = db["order"]
 shopping_cart_collection = db["shopping_cart"]
 
 
+# ------------ user_collection methods --------------------
+
 def get_next_user_id():
-    id_object = user_id_collection.find_one({})
-    if id_object:
-        next_id = int(id_object["last_id"]) + 1
-        user_id_collection.update_one({}, {"$set": {"last_id": next_id}})
-        return next_id
-    else:
-        user_id_collection.insert_one({"last_id": 1})
-        return 1
+    __get_next_id_for(user_id_collection)
 
 
 def create_user_account(user_id: int, email: str, password: str, name: str):
@@ -57,10 +54,9 @@ def create_user_account(user_id: int, email: str, password: str, name: str):
     return get_one_user(insert_result.inserted_id)
 
 
-
-
-def update_user_address(user_id: int, password: str, address1: str, address2: str, city: str, state: str,
-                        zip_code: str):
+def update_user_address(user_id: int, password: str,
+                        address1: str, address2: str,
+                        city: str, state: str, zip_code: str):
     user_password = get_one_user(user_id)["password"]
     if user_password == password:
         user_collection.update_one(
@@ -76,6 +72,8 @@ def update_user_address(user_id: int, password: str, address1: str, address2: st
         return "password mismatching"
 
 
+# update sale_id, order_id, and cart_id.
+# update_user_relational_id(u_id, password, order_id = some_o_id) to update specific id
 def update_user_relational_id(user_id: int, password: str,
                               sale_id: int = None,
                               order_id: int = None,
@@ -110,3 +108,34 @@ def get_one_user(user_id: int):
 
 def get_all_users():
     return [user for user in user_collection.find({})]
+
+# ------------ user_collection methods end --------------------
+
+# ------------ product_collection methods --------------------
+
+
+def get_next_product_id():
+    __get_next_id_for(product_id_collection)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ------------ Private method --------------------
+def __get_next_id_for(collection):
+    id_object = collection.find_one({})
+    if id_object:
+        next_id = int(id_object["last_id"]) + 1
+        collection.update_one({}, {"$set": {"last_id": next_id}})
+        return next_id
+    else:
+        collection.insert_one({"last_id": 1})
+        return 1
