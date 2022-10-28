@@ -7,3 +7,20 @@ Sales(sale_id: int, user_id: int, product_id: int)
 Orders(order_id: int, user_id: int, product_id: int)
 
 Shopping_carts(shopping_id: int, user_id: int, product_id: int)
+
+Details description:
+
+User_id will be the primary key for User_accounts table, and be foreign keys for other tables.
+
+user_id as key to find existing sales, past orders and shopping cart associate with specific user.
+
+A user can use be a sales but not necessary need to be.
+if a user sales products, his user_id will appear on the "Sales" table and has a associated 'sale_id'
+
+A user can purchase products.
+if a user purchased a product, his user_id will appear on the "Orders" table and has a associated 'order_id'
+
+A user can have shopping cart for products that he is going to purchase.
+if a user want to buy stuff, his user_id will appear on the "Shopping_carts" table and has a associated 'shopping_id'
+
+
