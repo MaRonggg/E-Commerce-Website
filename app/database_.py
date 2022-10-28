@@ -5,7 +5,8 @@ db = mongo_client['5bytes']
 
 # User_accounts(
 #     user_id: int, password: str, email: str, name: str,
-#     address1: str, address2: str, city: str, state: str, zip: str
+#     address1: str, address2: str, city: str, state: str, zip: str,
+#     on_sale: list[int], order: list[int], cart: list[int]
 # )
 user_collection = db["User_account"]
 
@@ -18,14 +19,17 @@ user_id_collection = db["user_id"]
 # )
 product_collection = db["product"]
 
-# Sale(sale_id: int, user_id: int, product_id: int)
+# Sale(user_id: int, product_id_list: list[int])
+# primary_key -> user_id
 # sale_collection = db["sale"]
 
 
-# Order(order_id: int, user_id: int, product_id: int)
+# Order(user_id: int, product_id_list: list[int])
+# primary_key -> user_id
 order_collection = db["order"]
 
 # Shopping_cart(user_id: int, product_id_list: list[int])
+# primary_key -> user_id
 shopping_cart_collection = db["shopping_cart"]
 
 
