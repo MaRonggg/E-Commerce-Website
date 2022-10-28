@@ -6,7 +6,7 @@ db = mongo_client['5bytes']
 # User_accounts(
 #     user_id: int, password: str, email: str, name: str,
 #     address1: str, address2: str, city: str, state: str, zip: str,
-#     on_sale: list[int], order: list[int], cart: list[int]
+#     sale_id: int, order_id: int, cart_id: int
 # )
 user_collection = db["User_account"]
 
@@ -19,17 +19,16 @@ user_id_collection = db["user_id"]
 # )
 product_collection = db["product"]
 
-# Sale(user_id: int, product_id_list: list[int])
-# primary_key -> user_id
-# sale_collection = db["sale"]
+# Sale(sale_id: int, user_id: int, product_id_list: list[int])
+# primary_key -> sale_id, foreign_key -> user_id
+sale_collection = db["sale"]
 
-
-# Order(user_id: int, product_id_list: list[int])
-# primary_key -> user_id
+# Order(order_id: int, user_id: int, product_id_list: list[int])
+# primary_key -> order_id, foreign_key -> user_id
 order_collection = db["order"]
 
-# Shopping_cart(user_id: int, product_id_list: list[int])
-# primary_key -> user_id
+# Shopping_cart(cart_id: int, user_id: int, product_id_list: list[int])
+# primary_key -> cart_id, foreign_key -> user_id
 shopping_cart_collection = db["shopping_cart"]
 
 
@@ -50,15 +49,18 @@ def create_user_account(user_id: int, email: str, password: str, name: str):
         "email": email,
         "password": password,
         "name": name,
-        "address1": "", "address2": "", "city": "", "state": "", "zip_code": ""
+        "address1": "", "address2": "", "city": "", "state": "", "zip_code": "",
+        "sale_id": -1, "order_id": -1, "cart_id": -1
     }
     insert_result = user_collection.insert_one(user_dict)
     # print(insert_result.inserted_id)
     return get_one_user(insert_result.inserted_id)
-#     address1: str, address2: str, city: str, state: str, zip: str
 
 
-def update_user_address(user_id: int, password: str, address1: str, address2: str, city: str, state: str, zip_code: str):
+
+
+def update_user_address(user_id: int, password: str, address1: str, address2: str, city: str, state: str,
+                        zip_code: str):
     user_password = get_one_user(user_id)["password"]
     if user_password == password:
         user_collection.update_one(
@@ -72,6 +74,21 @@ def update_user_address(user_id: int, password: str, address1: str, address2: st
         return "setting address successful"
     else:
         return "password mismatching"
+
+
+def update_user_relational_id(user_id: int, password: str,
+                              sale_id: int = None,
+                              order_id: int = None,
+                              cart_id: int = None):
+    user_password = get_one_user(user_id)["password"]
+    if user_password != password:
+        return "password mismatching"
+    if sale_id is not None:
+        user_collection.update_one({"_id": user_id}, {"$set": {"sale_id": sale_id}})
+    if order_id is not None:
+        user_collection.update_one({"_id": user_id}, {"$set": {"order_id": order_id}})
+    if cart_id is not None:
+        user_collection.update_one({"_id": user_id}, {"$set": {"cart_id": cart_id}})
 
 
 # reset password
