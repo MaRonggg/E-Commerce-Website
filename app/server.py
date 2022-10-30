@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from user_data.listing import bp as listing_bp
 
 app = Flask(__name__)
