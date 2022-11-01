@@ -10,6 +10,7 @@ db = mongo_client['5bytes']
 #     address1: str, address2: str, city: str, state: str, zip: str,
 #     sale_id: int, order_id: int, cart_id: int
 # )
+# primary_key -> user_id, foreign_key -> sale_id, order_id, cart_id
 user_collection = db["User_account"]
 # store the last id
 user_id_collection = db["user_id"]
@@ -18,6 +19,7 @@ user_id_collection = db["user_id"]
 #     product_id: int, product_name: str, product_price: double,
 #     product_images: list[Path], product_description: str
 # )
+# primary_key -> product_id, foreign_key -> none
 product_collection = db["product"]
 product_id_collection = db["product_id"]
 
@@ -44,13 +46,10 @@ shopping_cart_id_collection = db["shopping_cart_id"]
 #     sale_id: int, order_id: int, cart_id: int
 # )
 
-def get_next_user_id():
-    return __get_next_id_for(user_id_collection)
 
-
-def create_user_account(user_id: int, email: str, password: str, name: str):
+def create_user_account(email: str, password: str, name: str):
     user_dict = {
-        "_id": user_id,
+        "_id": __get_next_user_id(),
         "email": email,
         "password": password,
         "name": name,
@@ -125,16 +124,13 @@ def get_all_users():
 #     product_images: list[Path], product_description: str
 # )
 
-def get_next_product_id():
-    return __get_next_id_for(product_id_collection)
 
-
-def create_product(product_id: int, product_name: str, product_price: float,
+def create_product(product_name: str, product_price: float,
                    product_images: list[Path] = None, product_description: str = ""):
     if product_images is None:
         product_images = []
     product_dict = {
-        "_id": product_id,
+        "_id": __get_next_product_id(),
         "product_name": product_name,
         "product_price": product_price,
         "product_images": product_images,
@@ -183,16 +179,41 @@ def update_product_description(product_id: int, product_description: str):
     return "description update successful"
 
 
+def delete_one_product(product_id: int):
+    product_collection.delete_one({"_id": product_id})
+    product_id_collection.delete_one({"_id": product_id})
+
+
 def get_one_product(product_id: int):
     return product_collection.find_one({"_id": product_id})
 
 
 def get_all_products():
     return [product for product in product_collection.find({})]
+
+
 # ------------ product_collection methods end --------------------
+# ------------ sale_collection methods --------------------
+# Sale(sale_id: int, user_id: int, product_id_list: list[int])
+
+
+# ------------ sale_collection methods end --------------------
 
 
 # ------------ Private method --------------------
+
+def __get_next_user_id():
+    return __get_next_id_for(user_id_collection)
+
+
+def __get_next_product_id():
+    return __get_next_id_for(product_id_collection)
+
+
+def __get_next_sale_id():
+    return __get_next_id_for(sale_id_collection)
+
+
 def __get_next_id_for(collection):
     id_object = collection.find_one({})
     if id_object:
@@ -202,5 +223,3 @@ def __get_next_id_for(collection):
     else:
         collection.insert_one({"last_id": 1})
         return 1
-
-    
