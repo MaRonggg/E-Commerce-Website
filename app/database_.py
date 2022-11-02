@@ -109,10 +109,12 @@ def update_user_password(user_id: int, old_password: str, new_password: str):
         return "password mismatching"
 
 
+# return one row data
 def get_one_user(user_id: int):
     return user_collection.find_one({"_id": user_id})
 
 
+# return all rows as list[row]
 def get_all_users():
     return [user for user in user_collection.find({})]
 
@@ -137,7 +139,6 @@ def create_product(product_name: str, product_price: float,
         "product_description": product_description
     }
     insert_result = product_collection.insert_one(product_dict)
-    # print(insert_result.inserted_id)
     return get_one_product(insert_result.inserted_id)
 
 
@@ -184,10 +185,12 @@ def delete_one_product(product_id: int):
     product_id_collection.delete_one({"_id": product_id})
 
 
+# return one row data
 def get_one_product(product_id: int):
     return product_collection.find_one({"_id": product_id})
 
 
+# return all rows as list[row]
 def get_all_products():
     return [product for product in product_collection.find({})]
 
@@ -195,10 +198,124 @@ def get_all_products():
 # ------------ product_collection methods end --------------------
 # ------------ sale_collection methods --------------------
 # Sale(sale_id: int, user_id: int, product_id_list: list[int])
+def create_sale(user_id: int, product_id_list: list[int] = None):
+    if product_id_list is None:
+        product_id_list = []
+    sale_dict = {
+        "_id": __get_next_sale_id(),
+        "user_id": user_id,
+        "product_id_list": product_id_list
+    }
+    insert_result = sale_collection.insert_one(sale_dict)
+    return get_one_sale(insert_result.inserted_id)
+
+
+def add_product_to_sale(sale_id: int, product_id: int):
+    p_list = get_one_sale(sale_id)["product_id_list"].append(product_id)
+    sale_collection.update_one({"_id": sale_id},
+                               {"$set": {"product_id_list": p_list}})
+    return "product added"
+
+
+# remove the first matching element
+def remove_product_from_sale(sale_id: int, product_id: int):
+    p_list = get_one_sale(sale_id)["product_id_list"].remove(product_id)
+    sale_collection.update_one({"_id": sale_id},
+                               {"$set": {"product_id_list": p_list}})
+    return "product removed"
+
+
+# return one row data
+def get_one_sale(sale_id: int):
+    return sale_collection.find_one({"_id": sale_id})
+
+
+# return all rows as list[row]
+def get_all_sale():
+    return [sale for sale in sale_collection.find({})]
 
 
 # ------------ sale_collection methods end --------------------
+# ------------ order_collection methods --------------------
+# Order(order_id: int, user_id: int, product_id_list: list[int])
+def create_order(user_id: int, product_id_list: list[int] = None):
+    if product_id_list is None:
+        product_id_list = []
+    sale_dict = {
+        "_id": __get_next_order_id(),
+        "user_id": user_id,
+        "product_id_list": product_id_list
+    }
+    insert_result = order_collection.insert_one(sale_dict)
+    return get_one_order(insert_result.inserted_id)
 
+
+def add_product_to_sale(order_id: int, product_id: int):
+    p_list = get_one_order(order_id)["product_id_list"].append(product_id)
+    sale_collection.update_one({"_id": order_id},
+                               {"$set": {"product_id_list": p_list}})
+    return "product added"
+
+
+# remove the first matching element
+def remove_product_from_order(order_id: int, product_id: int):
+    p_list = get_one_order(order_id)["product_id_list"].remove(product_id)
+    sale_collection.update_one({"_id": order_id},
+                               {"$set": {"product_id_list": p_list}})
+    return "product removed"
+
+
+# return one row data
+def get_one_order(order_id: int):
+    return order_collection.find_one({"_id": order_id})
+
+
+# return all rows as list[row]
+def get_all_order():
+    return [order for order in order_collection.find({})]
+
+
+# ------------ order_collection methods end --------------------
+# ------------ shopping_cart_collection methods --------------------
+# Shopping_cart(cart_id: int, user_id: int, product_id_list: list[int])
+def create_shopping_cart(user_id: int, product_id_list: list[int] = None):
+    if product_id_list is None:
+        product_id_list = []
+    sale_dict = {
+        "_id": __get_next_shopping_cart_id(),
+        "user_id": user_id,
+        "product_id_list": product_id_list
+    }
+    insert_result = product_collection.insert_one(sale_dict)
+    return get_one_sale(insert_result.inserted_id)
+
+
+def add_product_to_shopping_cart(shopping_cart_id: int, product_id: int):
+    p_list = get_one_shopping_cart(shopping_cart_id)["product_id_list"].append(product_id)
+    sale_collection.update_one({"_id": shopping_cart_id},
+                               {"$set": {"product_id_list": p_list}})
+    return "product added"
+
+
+# remove the first matching element
+def remove_product_from_shopping_cart(shopping_cart_id: int, product_id: int):
+    p_list = get_one_shopping_cart(shopping_cart_id)["product_id_list"].remove(product_id)
+    sale_collection.update_one({"_id": shopping_cart_id},
+                               {"$set": {"product_id_list": p_list}})
+    return "product removed"
+
+
+# return one row data
+def get_one_shopping_cart(shopping_cart_id: int):
+    return shopping_cart_collection.find_one({"_id": shopping_cart_id})
+
+
+# return all rows as list[row]
+def get_all_shopping_cart():
+    return [shopping_cart for shopping_cart in shopping_cart_collection.find({})]
+
+
+# ------------ shopping_cart_collection methods end --------------------
 
 # ------------ Private method --------------------
 
@@ -212,6 +329,14 @@ def __get_next_product_id():
 
 def __get_next_sale_id():
     return __get_next_id_for(sale_id_collection)
+
+
+def __get_next_order_id():
+    return __get_next_id_for(order_id_collection)
+
+
+def __get_next_shopping_cart_id():
+    return __get_next_id_for(shopping_cart_id_collection)
 
 
 def __get_next_id_for(collection):
