@@ -4,7 +4,15 @@
     5bytes
 {% endblock %}
 
+{% block event %}
+onload="get_all_products();"
+{% endblock %}
+
 {% block head %}
     <h1>Welcome to 5bytes</h1>
+{% endblock %}
+
+{% block body %}
+    <div id="products"></div>
 {% endblock %}
 

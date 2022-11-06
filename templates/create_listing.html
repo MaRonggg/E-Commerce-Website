@@ -9,12 +9,15 @@
 {% endblock %}
 
 {% block body %}
+    <p> Please provide the information of the product: </p>
+    <div id="error" style="color: red"></div>
     <label for="imageInput">image: </label>
     <input id="imageInput" type="file" name="image"><br/>
+    <label for="nameInput">name: </label>
+    <input id="nameInput" type="text" name="name"><br/>
     <label for="descriptionInput">description: </label>
     <input id="descriptionInput" type="text" name="description"><br/>
     <label for="priceInput">price: </label>
     <input id="priceInput" type="text" name="price"><br/>
     <button id="createBtn">create</button>
-    <div id="listings"></div>
 {% endblock %}

@@ -1,8 +1,7 @@
 from flask import Blueprint, request, render_template
-from database import db
+import database.database as db
 
 bp = Blueprint('listing', __name__)
-listing_collection = db['listing']
 
 
 @bp.route('/create_page', methods=['GET'])
@@ -13,11 +12,15 @@ def create_listing_page():
 @bp.route('/create', methods=['POST'])
 def create_image():
     image = request.files.get('image')
+    name = request.form.get('name')
     description = request.form.get('description')
     price = request.form.get('price')
-    # db.save_file(image.filename, image)
-    # listing_collection.insert_one({'image': image.filename, 'description': description, 'price': price})
-    print(image)
-    print(description)
-    print(price)
+    db.create_product(name, price, image.filename, description)
     return 'created'
+
+
+@bp.route('/get-all-products', methods=['GET'])
+def get_all_products():
+    all_products = db.get_all_products()
+    return list(all_products)
+
