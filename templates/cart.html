@@ -1,0 +1,29 @@
+{% extends "base_shoppingcart_zhexi.html" %}
+{% block title %}
+    view_cart
+{% endblock %}
+
+{% block head %}
+    <h2>Shopping Bag</h2>
+{% endblock %}
+
+{% block account %}
+    <div id="error" style="color: red"></div>
+    <label for="CartAccount">Account: </label>
+    <input id="CartAccount" type="text" name="CartAccount"><br/>
+    <label for="CartPassword">Password: </label>
+    <input id="CartPassword" type="text" name="CartPassword"><br/>
+    <button id="Submit">Submit</button>
+    <div id="checkinfor"></div>
+{% endblock %}
+
+{% block redirect %}
+<ul>
+  <li>
+    <a href="/guest">continue with guest</a>
+  </li>
+</ul>
+{% endblock %}
+
+
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+{% block head %}{% endblock %}
+<ul>
+  <li>
+    <a href="/">main page</a>
+  </li>
+</ul>
+<div id="items"></div>
+{% block account %}{% endblock %}
+{% block message %}{% endblock %}
+{% block redirect %}{% endblock %}
+<script src="cart.js"></script>
+</body>
+</html>

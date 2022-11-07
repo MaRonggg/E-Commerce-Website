@@ -1,0 +1,27 @@
+{% extends "base_shoppingcart_zhexi.html" %}
+
+{% block message %}
+
+    {% for goods in nav %}
+        <div class="container">
+        # how to fetch image
+        <img src="{{goods["product_images"]}}.jpg" alt="It's a product" class="my_image" width="500" height="600" />
+        <h1>{{goods["product_name"]}}</h1>
+        <p>{{goods["product_description"]}}</p>
+        <p>{{goods["product_price"]}}</p>
+        </div>
+        # use innerhtml to append a bottom
+        <div id="aitem"></div>
+    {% endfor %}
+ {% endblock %}
+
+    {% block test %}
+
+
+
+
+
+
+
+
+{% endblock %}
