@@ -26,12 +26,15 @@ def showcart():
         nav=nav
 
     )
-@cartbp.route('/checkinfor', methods=['GET'])
+@cartbp.route('/checkinfor', methods=['POST'])
 def checkinfor():
-    account = request.files.get('id')
+
+    account = request.form.get('id')
+    print(account)
 
     infor = json.loads(get_one_user(account).decode())
     return infor
+
 
 
 
