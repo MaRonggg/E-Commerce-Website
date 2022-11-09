@@ -5,7 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
-<body {% block event %}{% endblock %}>
+<body>
 {% block head %}{% endblock %}
 <ul>
   <li>
@@ -14,8 +14,14 @@
   <li>
     <a href="/create_page">create listing</a>
   </li>
+  <li>
+    <a href="/shopping_cart">shopping cart</a>
+  </li>
 </ul>
+
 {% block body %}{% endblock %}
+
 <script src="listing.js"></script>
+
 </body>
 </html>
