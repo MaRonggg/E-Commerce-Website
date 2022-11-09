@@ -19,7 +19,7 @@ def send_js():
 
 @app.route('/cart.js', methods=['GET'])
 def send_js1():
-    with open('/Users/zhexichen/Desktop/pythonProject5/front_end/cart.js', 'rb') as js:
+    with open('front_end/cart.js', 'rb') as js:
         return js.read()
 
 
