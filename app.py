@@ -12,11 +12,6 @@ def hello_world():
     return render_template('main_page.html')
 
 
-@app.route('/', methods=['GET'])
-def hello_world():
-    return render_template('main_page.html')
-
-
 @app.route('/listing.js', methods=['GET'])
 def send_js():
     with open('front_end/listing.js', 'rb') as js:
