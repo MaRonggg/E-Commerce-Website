@@ -20,7 +20,7 @@ $('#Submit').click(function() {
         if (Password===eppass) {
             $.ajax({
                 url: '/showcart',
-                method: 'GET',
+                method: 'POST',
                 data: formData,
                 contentType: false,
                 processData: false,
