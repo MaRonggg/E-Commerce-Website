@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from flask_pymongo import MongoClient
+import bcrypt
 
 mongo_client = MongoClient('mongo')
 db = mongo_client['5bytes']
@@ -109,9 +110,18 @@ def update_user_password(user_id: int, old_password: str, new_password: str):
         return "password mismatching"
 
 
+def verify_user_password(email: str, entered_password: bytes):
+    user_account = user_collection.find_one({"email": email})
+    if user_account is None:
+        return False
+    return bcrypt.checkpw(entered_password, user_account["password"])
+
+
 # return one row data
-def get_one_user(user_id: int):
-    return user_collection.find_one({"_id": user_id})
+def get_one_user(email: str, password: bytes):
+    if verify_user_password(email, password):
+        return user_collection.find_one({"email": email})
+    return None
 
 
 # return all rows as list[row]
@@ -128,7 +138,7 @@ def get_all_users():
 
 
 def create_product(product_name: str, product_price: float,
-                   product_images: list[Path] = None, product_description: str = ""):
+                   product_images=None, product_description: str = ""):
     if product_images is None:
         product_images = []
     product_dict = {
@@ -198,7 +208,7 @@ def get_all_products():
 # ------------ product_collection methods end --------------------
 # ------------ sale_collection methods --------------------
 # Sale(sale_id: int, user_id: int, product_id_list: list[int])
-def create_sale(user_id: int, product_id_list: list[int] = None):
+def create_sale(user_id: int, product_id_list=None):
     if product_id_list is None:
         product_id_list = []
     sale_dict = {
@@ -238,7 +248,7 @@ def get_all_sale():
 # ------------ sale_collection methods end --------------------
 # ------------ order_collection methods --------------------
 # Order(order_id: int, user_id: int, product_id_list: list[int])
-def create_order(user_id: int, product_id_list: list[int] = None):
+def create_order(user_id: int, product_id_list=None):
     if product_id_list is None:
         product_id_list = []
     sale_dict = {
@@ -278,7 +288,7 @@ def get_all_order():
 # ------------ order_collection methods end --------------------
 # ------------ shopping_cart_collection methods --------------------
 # Shopping_cart(cart_id: int, user_id: int, product_id_list: list[int])
-def create_shopping_cart(user_id: int, product_id_list: list[int] = None):
+def create_shopping_cart(user_id: int, product_id_list=None):
     if product_id_list is None:
         product_id_list = []
     sale_dict = {
