@@ -4,7 +4,7 @@ from flask_login import login_user
 from flask import request
 from flask import session
 from database import database
-
+from werkzeug.security import check_password_hash
 
 auth = flask.Blueprint("auth",__name__)
 
@@ -20,7 +20,7 @@ def login():
         if not user:
             flash('Invalid username.')
             return redirect(url_for('login'))
-        if user.get("password") != password:
+        if user.get("password") != check_password_hash('hash', password):
             flash('Incorrect password.')
             return redirect(url_for('login'))
         else:
@@ -28,4 +28,10 @@ def login():
             flash('Login success.')
             return redirect(url_for('/'))
     return render_template("login.html")
+
+
+@auth.route("/register", methods = ["GET","POST"])
+def register():
+    if request.method == "GET":
+        return render_template("register_account.html")
 
