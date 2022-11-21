@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from flask_pymongo import MongoClient
+import bcrypt
 
 mongo_client = MongoClient('mongo')
 db = mongo_client['5bytes']
@@ -109,9 +110,18 @@ def update_user_password(user_id: int, old_password: str, new_password: str):
         return "password mismatching"
 
 
+def verify_user_password(email: str, entered_password: bytes):
+    user_account = user_collection.find_one({"email": email})
+    if user_account is None:
+        return False
+    return bcrypt.checkpw(entered_password, user_account["password"])
+
+
 # return one row data
-def get_one_user(user_id: int):
-    return user_collection.find_one({"_id": user_id})
+def get_one_user(email: str, password: bytes):
+    if verify_user_password(email, password):
+        return user_collection.find_one({"email": email})
+    return None
 
 
 # return all rows as list[row]
