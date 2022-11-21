@@ -27,6 +27,9 @@ def send_js1():
     with open(Path(__file__).parent / 'front_end/cart.js', 'rb') as js:
         return js.read()
 
+# added path for login
+# hey
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
