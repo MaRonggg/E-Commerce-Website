@@ -59,22 +59,18 @@ def create_user_account(email: str, password: bytes, name: str):
     }
     insert_result = user_collection.insert_one(user_dict)
     # print(insert_result.inserted_id)
-    return get_one_user(insert_result.inserted_id)
+    return get_one_user(email, password)
 
 
-def update_user_address(user_id: int, password: str,
+def update_user_address(email: str, password: bytes,
                         address1: str, address2: str,
                         city: str, state: str, zip_code: str):
-    user_password = get_one_user(user_id)["password"]
-    if user_password == password:
-        user_collection.update_one(
-            {"_id": user_id},
-            {"$set": {"address1": address1}},
-            {"$set": {"address2": address2}},
-            {"$set": {"city": city}},
-            {"$set": {"state": state}},
-            {"$set": {"zip_code": zip_code}}
-        )
+    if verify_user_password(email, password):
+        user_collection.update_one({"email": email}, {"$set": {"address1": address1}})
+        user_collection.update_one({"email": email}, {"$set": {"address2": address2}})
+        user_collection.update_one({"email": email}, {"$set": {"city": city}})
+        user_collection.update_one({"email": email}, {"$set": {"state": state}})
+        user_collection.update_one({"email": email}, {"$set": {"zip_code": zip_code}})
         return "setting address successful"
     else:
         return "password mismatching"
@@ -82,29 +78,24 @@ def update_user_address(user_id: int, password: str,
 
 # update sale_id, order_id, and cart_id.
 # update_user_relational_id(u_id, password, order_id = some_o_id) to update specific id
-def update_user_relational_id(user_id: int, password: str,
+def update_user_relational_id(email: str, password: bytes,
                               sale_id: int = None,
                               order_id: int = None,
                               cart_id: int = None):
-    user_password = get_one_user(user_id)["password"]
-    if user_password != password:
+    if verify_user_password(email, password):
         return "password mismatching"
     if sale_id is not None:
-        user_collection.update_one({"_id": user_id}, {"$set": {"sale_id": sale_id}})
+        user_collection.update_one({"email": email}, {"$set": {"sale_id": sale_id}})
     if order_id is not None:
-        user_collection.update_one({"_id": user_id}, {"$set": {"order_id": order_id}})
+        user_collection.update_one({"email": email}, {"$set": {"order_id": order_id}})
     if cart_id is not None:
-        user_collection.update_one({"_id": user_id}, {"$set": {"cart_id": cart_id}})
+        user_collection.update_one({"email": email}, {"$set": {"cart_id": cart_id}})
 
 
 # reset password
-def update_user_password(user_id: int, old_password: str, new_password: str):
-    user_password = get_one_user(user_id)["password"]
-    if user_password == old_password:
-        user_collection.update_one(
-            {"_id": user_id},
-            {"$set": {"password": new_password}}
-        )
+def update_user_password(email: str, password: bytes, new_password: str):
+    if verify_user_password(email, password):
+        user_collection.update_one({"email": email}, {"$set": {"password": new_password}})
         return "password reset successful"
     else:
         return "password mismatching"
