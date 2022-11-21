@@ -124,19 +124,19 @@ def get_all_users():
 # ------------ product_collection methods --------------------
 # Product (
 #     product_id: int, product_name: str, product_price: double,
-#     product_images: list[Path], product_description: str
+#     product_image: Path, product_description: str
 # )
 
 
 def create_product(product_name: str, product_price: float,
-                   product_images=None, product_description: str = ""):
-    if product_images is None:
-        product_images = []
+                   product_image: Path = None, product_description: str = ""):
+    if product_image is None:
+        product_image = 'images/default.jpeg'
     product_dict = {
         "_id": __get_next_product_id(),
         "product_name": product_name,
         "product_price": product_price,
-        "product_images": product_images,
+        "product_images": product_image,
         "product_description": product_description
     }
     insert_result = product_collection.insert_one(product_dict)
@@ -149,30 +149,14 @@ def update_product_price(product_id: int, product_price: float):
 
 
 # optional arg image_index; the insert method uses as append by default
-def insert_one_product_image(product_id: int, image_path: Path, image_index: int = None):
-    old_product_images = get_one_product(product_id)["product_images"]
-    if image_index is None:
-        new_product_images = old_product_images.append(image_path)
-        product_collection.update_one({"_id": product_id},
-                                      {"$set": {"product_images": new_product_images}})
-    else:
-        new_product_images = old_product_images.insert(image_index, image_path)
-        product_collection.update_one({"_id": product_id},
-                                      {"$set": {"product_images": new_product_images}})
+def update_product_image(product_id: int, image_path: Path):
+    product_collection.update_one({"_id": product_id}, {"$set": {"product_images": image_path}})
     return "image added"
 
 
 # optional arg image_index; the method remove image by index. remove_all if no index
 def remove_product_image(product_id: int, image_index: int = None):
-    old_product_images = get_one_product(product_id)["product_images"]
-    if image_index is None:
-        new_product_images = []
-        product_collection.update_one({"_id": product_id},
-                                      {"$set": {"product_images": new_product_images}})
-    else:
-        new_product_images = old_product_images.remove(image_index)
-        product_collection.update_one({"_id": product_id},
-                                      {"$set": {"product_images": new_product_images}})
+    product_collection.update_one({"_id": product_id}, {"$set": {"product_images": 'images/default.jpeg'}})
     return "image removed"
 
 
