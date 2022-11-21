@@ -3,12 +3,14 @@ from pathlib import Path
 from flask import Flask, render_template
 from user_data.listing import bp as listing_bp
 from user_data.cart import cartbp as cart_bp
+from user_data.register_account import register as reg
 from flask import Flask, request
 
 
 app = Flask(__name__)
 app.register_blueprint(listing_bp)
 app.register_blueprint(cart_bp)
+app.register_blueprint(reg)
 
 
 @app.route('/', methods=['GET'])
