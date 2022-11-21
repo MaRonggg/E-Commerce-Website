@@ -6,7 +6,7 @@ mongo_client = MongoClient('mongo')
 db = mongo_client['5bytes']
 
 # User_accounts(
-#     user_id: int, password: str, email: str, name: str,
+#     user_id: int, password: bytes, email: str, name: str,
 #     address1: str, address2: str, city: str, state: str, zip: str,
 #     sale_id: int, order_id: int, cart_id: int
 # )
