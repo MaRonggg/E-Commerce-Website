@@ -6,13 +6,14 @@ from flask import session
 from database import database
 from werkzeug.security import check_password_hash
 
-auth = flask.Blueprint("auth",__name__)
+auth = flask.Blueprint("auth", __name__)
 
-@auth.route("/login",methods=['GET','POST'])
+
+@auth.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get("username")
-        password = request.form.get("password")
+        username = request.form.get("uname")
+        password = request.form.get("psw")
         if not username or not password:
             flash('Invalid input.')
             return redirect(url_for('login'))
@@ -20,7 +21,7 @@ def login():
         if not user:
             flash('Invalid username.')
             return redirect(url_for('login'))
-        if user.get("password") != check_password_hash('hash', password):
+        if check_password_hash(user.get("password"), password):
             flash('Incorrect password.')
             return redirect(url_for('login'))
         else:
@@ -30,8 +31,5 @@ def login():
     return render_template("login.html")
 
 
-@auth.route("/register", methods = ["GET","POST"])
-def register():
-    if request.method == "GET":
-        return render_template("register_account.html")
+
 
