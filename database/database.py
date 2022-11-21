@@ -47,7 +47,7 @@ shopping_cart_id_collection = db["shopping_cart_id"]
 # )
 
 
-def create_user_account(email: str, password: str, name: str):
+def create_user_account(email: str, password: bytes, name: str):
     user_dict = {
         "_id": __get_next_user_id(),
         "email": email,
