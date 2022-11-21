@@ -1,25 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-<!-- add form for registration -->
-<form action="/registration" id="registration-form" method="post" enctype="multipart/form-data">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-    <input type="submit" value="registration">
-</form>
-
+{% extends "base.html" %}
 <!-- add form for login -->
+{% block login %}
 <form action="/login" id="login-form" method="post" enctype="multipart/form-data">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Your Email" name="email" required>
 
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
@@ -27,5 +11,4 @@
     <input type="submit" value="login">
 </form>
 
-</body>
-</html>
+{% endblock %}
