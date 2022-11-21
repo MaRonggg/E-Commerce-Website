@@ -4,24 +4,24 @@ from flask_login import login_user
 from flask import request
 from flask import session
 from database import database
-from werkzeug.security import check_password_hash
+from bcrypt import checkpw, gensalt, hashpw
 
 auth = flask.Blueprint("auth", __name__)
-
+salt = gensalt()
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get("uname")
+        email = request.form.get("email")
         password = request.form.get("psw")
-        if not username or not password:
+        if not email or not password:
             flash('Invalid input.')
             return redirect(url_for('login'))
-        user = database.user_collection.find_one({"email": username})
+        user = database.user_collection.find_one({"email": email})
         if not user:
-            flash('Invalid username.')
+            flash('Invalid email.')
             return redirect(url_for('login'))
-        if check_password_hash(user.get("password"), password):
+        if not checkpw(hashpw(password.encode('utf-8'), salt), user.get("password")):
             flash('Incorrect password.')
             return redirect(url_for('login'))
         else:
