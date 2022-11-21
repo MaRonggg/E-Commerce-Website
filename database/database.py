@@ -138,7 +138,7 @@ def get_all_users():
 
 
 def create_product(product_name: str, product_price: float,
-                   product_images: list[Path] = None, product_description: str = ""):
+                   product_images=None, product_description: str = ""):
     if product_images is None:
         product_images = []
     product_dict = {
@@ -208,7 +208,7 @@ def get_all_products():
 # ------------ product_collection methods end --------------------
 # ------------ sale_collection methods --------------------
 # Sale(sale_id: int, user_id: int, product_id_list: list[int])
-def create_sale(user_id: int, product_id_list: list[int] = None):
+def create_sale(user_id: int, product_id_list=None):
     if product_id_list is None:
         product_id_list = []
     sale_dict = {
@@ -248,7 +248,7 @@ def get_all_sale():
 # ------------ sale_collection methods end --------------------
 # ------------ order_collection methods --------------------
 # Order(order_id: int, user_id: int, product_id_list: list[int])
-def create_order(user_id: int, product_id_list: list[int] = None):
+def create_order(user_id: int, product_id_list=None):
     if product_id_list is None:
         product_id_list = []
     sale_dict = {
@@ -288,7 +288,7 @@ def get_all_order():
 # ------------ order_collection methods end --------------------
 # ------------ shopping_cart_collection methods --------------------
 # Shopping_cart(cart_id: int, user_id: int, product_id_list: list[int])
-def create_shopping_cart(user_id: int, product_id_list: list[int] = None):
+def create_shopping_cart(user_id: int, product_id_list=None):
     if product_id_list is None:
         product_id_list = []
     sale_dict = {
