@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block reg %}
-<form action="/registration" id="registration-form" method="post" enctype="multipart/form-data">
-    <label for="uname"><b>Username</b></label>
+<form action="/registration" method="post">
+    <label for="uname"><b>username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
 
-    <label for="psw"><b>Password</b></label>
+    <label for="psw"><b>password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
     <input type="submit" value="registration">
 </form>
