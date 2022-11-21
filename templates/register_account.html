@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 
 {% block reg %}
+
 <form action="/registration" method="post">
     <label for="email"><b>username</b></label>
     <input type="text" placeholder="Enter Email" name="email" required>
+
+<form action="/register" method="post">
+    <label for="uname"><b>username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
 
     <label for="psw"><b>password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
 
     <label for="name"><b>password</b></label>
     <input type="name" placeholder="Enter Your name" name="name" required>
-
     <input type="submit" value="registration">
 </form>
 
