@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block head %}
-    <h2>Creating Listing</h2>
+    <h2>Create Listing</h2>
 {% endblock %}
 
 {% block body %}
@@ -14,10 +14,15 @@
     <label for="imageInput">image: </label>
     <input id="imageInput" type="file" name="image"><br/>
     <label for="nameInput">name: </label>
-    <input id="nameInput" type="text" name="name"><br/>
+    <input id="nameInput" type="text" name="name">
+    <span id="name_error" style="color: red; display: none;">product name cannot be empty</span><br/>
     <label for="descriptionInput">description: </label>
-    <input id="descriptionInput" type="text" name="description"><br/>
+    <input id="descriptionInput" type="text" name="description">
+    <span id="description_error" style="color: red; display: none;">product description cannot be empty</span><br/>
     <label for="priceInput">price: </label>
-    <input id="priceInput" type="text" name="price"><br/>
+    <input id="priceInput" type="text" name="price">
+    <span id="price_error" style="color: red; display: none;">invalid price</span><br/>
     <button id="createBtn">create</button>
+
+    <script src="listing.js"></script>
 {% endblock %}

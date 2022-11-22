@@ -5,8 +5,9 @@
     <title>{% block title %}{% endblock %}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
-<body>
+<body {% block event %}{% endblock %}>
 {% block head %}{% endblock %}
+
 <ul>
   <li>
     <a href="/">main page</a>
@@ -31,8 +32,6 @@
 {% block reg %}{% endblock %}
 {% block login %}{% endblock %}
 
-
-<script src="listing.js"></script>
 
 </body>
 </html>
