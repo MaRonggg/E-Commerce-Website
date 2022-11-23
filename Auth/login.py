@@ -27,7 +27,7 @@ def login():
             else:
                 session["email"] = email
                 flash('Login success.')
-                return render_template("logined.html", email=email)
+                return redirect(url_for('/'))
     return render_template("login.html")
 
 
