@@ -28,7 +28,8 @@ def login():
                 session["email"] = email
                 flash('Login success.')
                 return redirect(url_for('/'))
-    return render_template("login.html")
+    else:
+        return render_template("login.html")
 
 
 
