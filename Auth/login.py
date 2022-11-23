@@ -20,13 +20,14 @@ def login():
         if not user:
             flash('Email not Found.')
             return redirect(url_for('login'))
-        if not checkpw(hashpw(password.encode('utf-8'), salt), user.get("password")):
-            flash('Incorrect password.')
-            return redirect(url_for('login'))
         else:
-            session["email"] = email
-            flash('Login success.')
-            return render_template("logined.html", email=email)
+            if not checkpw(hashpw(password.encode('utf-8'), salt), user.get("password")):
+                flash('Incorrect password.')
+                return redirect(url_for('login'))
+            else:
+                session["email"] = email
+                flash('Login success.')
+                return render_template("logined.html", email=email)
     return render_template("login.html")
 
 
