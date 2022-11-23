@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from flask import render_template
+from flask import render_template, session
 from user_data.listing import bp as listing_bp
 from user_data.cart import cartbp as cart_bp
 from Auth.register_account import register as reg
@@ -17,6 +17,10 @@ app.secret_key = "aisjdioajdiowqjiodjasiojdioqw"
 
 @app.route('/', methods=['GET'])
 def main_page():
+    # 判断用户是否登录
+    if "email" in session:
+        email = session['email']
+        return render_template('logined.html', email=email)
     return render_template('main_page.html')
 
 
@@ -36,6 +40,7 @@ def send_listing_js():
 def send_js1():
     with open(Path(__file__).parent / 'front_end/cart.js', 'rb') as js:
         return js.read()
+
 
 # added path for login
 # hey
