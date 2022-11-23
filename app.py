@@ -12,6 +12,7 @@ app.register_blueprint(listing_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(reg)
 app.register_blueprint(login)
+app.secret_key = "aisjdioajdiowqjiodjasiojdioqw"
 
 
 @app.route('/', methods=['GET'])
