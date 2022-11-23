@@ -32,7 +32,7 @@ def reg():
         print(f'username would be {name}')
         print(f'password would be {password}')
         database.create_user_account(email, password, name)
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
 
 # after submit form, store the value into database
