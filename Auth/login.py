@@ -1,6 +1,5 @@
 import flask
 from flask import render_template, flash, redirect, url_for
-from flask_login import login_user
 from flask import request
 from flask import session
 from database import database
@@ -25,7 +24,7 @@ def login():
             flash('Incorrect password.')
             return redirect(url_for('login'))
         else:
-            login_user()
+
             flash('Login success.')
             return redirect(url_for('/'))
     return render_template("login.html")
