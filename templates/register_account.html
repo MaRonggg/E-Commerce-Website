@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block title %}Register System{% endblock %}
 {% block reg %}
 
 <form action="/register" method="post">
@@ -7,8 +7,12 @@
     <input type="text" placeholder="Enter Your Email" name="uname" required>
 
 
-    <label for="psw"><b>password</b></label>
+    <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <label for="psw2"><b>Repeat Password</b></label>
+    <input type="password" placeholder="Repeat Password" name="psw2" required>
+
 
     <label for="name"><b>name</b></label>
     <input type="name" placeholder="Enter Your name" name="name" required>
