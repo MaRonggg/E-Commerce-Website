@@ -14,3 +14,8 @@ https://docs.google.com/document/d/1xGPMn77sA5Cbcsj6NaQJnz60Rv8PodUm/edit?usp=sh
 
 
 werkzeug link: https://github.com/pallets/werkzeug
+
+
+team meeting form: 
+https://docs.google.com/forms/d/e/1FAIpQLScsSWTdF1ORZdoStMCX_YUKx7g1DQTakXgR4RvPP8kYClyzTw/viewform
+
