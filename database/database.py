@@ -59,7 +59,7 @@ def create_user_account(email: str, password: bytes, name: str):
     }
     insert_result = user_collection.insert_one(user_dict)
     # print(insert_result.inserted_id)
-    return get_one_user(email, password)
+    return get_one_user(email)
 
 
 def update_user_address(email: str, password: bytes,
