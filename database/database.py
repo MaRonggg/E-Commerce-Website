@@ -109,10 +109,9 @@ def verify_user_password(email: str, entered_password: bytes):
 
 
 # return one row data
-def get_one_user(email: str, password: bytes):
-    if verify_user_password(email, password):
-        return user_collection.find_one({"email": email})
-    return None
+def get_one_user(email: str):
+    return user_collection.find_one({"email": email})
+
 
 
 # return all rows as list[row]
