@@ -24,15 +24,9 @@ def main_page():
     return render_template('main_page.html')
 
 
-@app.route('/main.js', methods=['GET'])
-def send_main_js():
-    with open(Path(__file__).parent / 'front_end/main.js', 'rb') as js:
-        return js.read()
-
-
-@app.route('/listing.js', methods=['GET'])
-def send_listing_js():
-    with open(Path(__file__).parent / 'front_end/listing.js', 'rb') as js:
+@app.route('/script/<js_filename>', methods=['GET'])
+def send_main_js(js_filename):
+    with open(Path(__file__).parent / ('front_end/' + js_filename), 'rb') as js:
         return js.read()
 
 
@@ -48,7 +42,7 @@ def send_js1():
 #
 
 
-@app.route('/image/<image_id>', methods=['GET'])
+@app.route('/image<image_id>', methods=['GET'])
 def send_image(image_id):
     with open(Path(__file__).parent / ('images/image' + image_id + '.jpg'), 'rb') as image:
         return image.read()
