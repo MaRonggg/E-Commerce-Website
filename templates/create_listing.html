@@ -11,18 +11,18 @@
 {% block body %}
     <p> Please provide the information of the product: </p>
     <div id="error" style="color: red"></div>
-    <label for="imageInput">image: </label>
+    <label for="imageInput">Image: </label>
     <input id="imageInput" type="file" name="image"><br/>
-    <label for="nameInput">name: </label>
+    <label for="nameInput">Name: </label>
     <input id="nameInput" type="text" name="name">
     <span id="name_error" style="color: red; display: none;">product name cannot be empty</span><br/>
-    <label for="descriptionInput">description: </label>
+    <label for="descriptionInput">Description: </label>
     <input id="descriptionInput" type="text" name="description">
     <span id="description_error" style="color: red; display: none;">product description cannot be empty</span><br/>
-    <label for="priceInput">price: </label>
+    <label for="priceInput">Price: </label>
     <input id="priceInput" type="text" name="price">
     <span id="price_error" style="color: red; display: none;">invalid price</span><br/>
     <button id="createBtn">create</button>
 
-    <script src="listing.js"></script>
+    <script src="/script/listing.js"></script>
 {% endblock %}

@@ -129,18 +129,18 @@ def get_all_users():
 
 
 def create_product(product_name: str, product_price: float,
-                   product_image: Path = None, product_description: str = ""):
-    if product_image is None:
-        product_image = 'images/default.jpeg'
+                   product_description: str = ""):
+    product_id = __get_next_product_id()
+    product_image_name = "image" + str(product_id)
     product_dict = {
-        "_id": __get_next_product_id(),
+        "_id": product_id,
         "product_name": product_name,
         "product_price": product_price,
-        "product_images": product_image,
+        "product_images": product_image_name,
         "product_description": product_description
     }
     insert_result = product_collection.insert_one(product_dict)
-    return get_one_product(insert_result.inserted_id)
+    return product_image_name
 
 
 def update_product_price(product_id: int, product_price: float):
