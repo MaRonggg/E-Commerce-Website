@@ -303,7 +303,6 @@ def get_all_shopping_cart():
 # ------------ shopping_cart_collection methods end --------------------
 
 # ------------ Private method --------------------
-
 def __get_next_user_id():
     return __get_next_id_for(user_id_collection)
 
