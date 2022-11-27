@@ -168,6 +168,10 @@ def delete_one_product(product_id: int):
     product_id_collection.delete_one({"_id": product_id})
 
 
+def get_one_product_by_imagename(product_image_name: str):
+    return product_collection.find_one({"product_image": product_image_name})
+
+
 # return one row data
 def get_one_product(product_id: int):
     return product_collection.find_one({"_id": product_id})
@@ -180,54 +184,103 @@ def get_all_products():
 
 # ------------ product_collection methods end --------------------
 # ------------ sale_collection methods --------------------
-# Sale(sale_id: int, user_email: str, product_id_list: list[int])
-def create_sale(user_email: str, product_id_list=None):
-    if product_id_list is None:
-        product_id_list = []
+# Sale(sale_id: int, user_email: str, on_sale_p_id: list[int], sold_p_id: list[int])
+def create_sale(user_email: str,
+                on_sale_p_id: list = None,
+                sold_p_id: list = None):
+    if on_sale_p_id is None:
+        on_sale_p_id = []
+    if sold_p_id is None:
+        sold_p_id = []
     sale_dict = {
         "_id": __get_next_sale_id(),
         "user_email": user_email,
-        "product_id_list": product_id_list
+        "on_sale_products": on_sale_p_id,  # on_sale_p_id -> on sale product id list
+        "sold_products": sold_p_id  # sold_p_id -> sold product id list
     }
-    insert_result = sale_collection.insert_one(sale_dict)
-    return get_one_sale(insert_result.inserted_id)
+    sale_collection.insert_one(sale_dict)
+    return get_one_sale(user_email)
 
 
 # use either sale_id or user_email to access
-def add_product_to_sale(product_id: int,
+def add_product_to_on_sale(product_id: int,
+                           user_email: str = None,
+                           sale_id: int = None):
+    if sale_id is not None:
+        p_list = get_one_sale(sale_id=sale_id)["on_sale_products"].append(product_id)
+        sale_collection.update_one({"_id": sale_id},
+                                   {"$set": {"on_sale_products": p_list}})
+        return "product added"
+    if user_email is not None:
+        p_list = get_one_sale(user_email=user_email)["on_sale_products"].append(product_id)
+        sale_collection.update_one({"user_email": user_email},
+                                   {"$set": {"on_sale_products": p_list}})
+        return "product added"
+
+
+# use either sale_id or user_email to access
+def add_product_to_sold(product_id: int,
                         user_email: str = None,
                         sale_id: int = None):
     if sale_id is not None:
-        p_list = get_one_sale(sale_id=sale_id)["product_id_list"].append(product_id)
+        p_list = get_one_sale(sale_id=sale_id)["sold_products"].append(product_id)
         sale_collection.update_one({"_id": sale_id},
-                                   {"$set": {"product_id_list": p_list}})
+                                   {"$set": {"sold_products": p_list}})
         return "product added"
     if user_email is not None:
-        p_list = get_one_sale(user_email=user_email)["product_id_list"].append(product_id)
+        p_list = get_one_sale(user_email=user_email)["sold_products"].append(product_id)
         sale_collection.update_one({"user_email": user_email},
-                                   {"$set": {"product_id_list": p_list}})
+                                   {"$set": {"sold_products": p_list}})
         return "product added"
+
+
+# use either sale_id or user_email to access
+def move_product_on_sale_to_sold(product_id: int,
+                                 user_email: str = None,
+                                 sale_id: int = None):
+    if sale_id is not None:
+        add_product_to_sold(product_id, sale_id=sale_id)
+        remove_product_from_on_sale(product_id, sale_id=sale_id)
+    if user_email is not None:
+        add_product_to_sold(product_id, user_email=user_email)
+        remove_product_from_on_sale(product_id, user_email=user_email)
 
 
 # remove the first matching element
-def remove_product_from_sale(product_id: int,
+# use either sale_id or user_email to access
+def remove_product_from_on_sale(product_id: int,
+                                sale_id: int = None,
+                                user_email: str = None):
+    if sale_id is not None:
+        p_list = get_one_sale(sale_id=sale_id)["on_sale_products"].remove(product_id)
+        sale_collection.update_one({"_id": sale_id},
+                                   {"$set": {"on_sale_products": p_list}})
+        return "product removed"
+    if user_email is not None:
+        p_list = get_one_sale(user_email=user_email)["on_sale_products"].remove(product_id)
+        sale_collection.update_one({"user_email": user_email},
+                                   {"$set": {"on_sale_products": p_list}})
+        return "product removed"
+
+
+# use either sale_id or user_email to access
+def remove_product_from_sold(product_id: int,
                              sale_id: int = None,
                              user_email: str = None):
     if sale_id is not None:
-        p_list = get_one_sale(sale_id=sale_id)["product_id_list"].remove(product_id)
+        p_list = get_one_sale(sale_id=sale_id)["sold_products"].remove(product_id)
         sale_collection.update_one({"_id": sale_id},
-                                   {"$set": {"product_id_list": p_list}})
+                                   {"$set": {"sold_products": p_list}})
         return "product removed"
     if user_email is not None:
-        p_list = get_one_sale(user_email=user_email)["product_id_list"].remove(product_id)
+        p_list = get_one_sale(user_email=user_email)["sold_products"].remove(product_id)
         sale_collection.update_one({"user_email": user_email},
-                                   {"$set": {"product_id_list": p_list}})
+                                   {"$set": {"sold_products": p_list}})
         return "product removed"
-
-
 
 
 # return one row data
+# use either sale_id or user_email to access
 def get_one_sale(user_email: str = None, sale_id: int = None):
     if sale_id is not None:
         return sale_collection.find_one({"_id": sale_id})
@@ -255,6 +308,7 @@ def create_order(user_email: str = None, product_id_list=None):
     return get_one_order(insert_result.inserted_id)
 
 
+# use either order_id or user_email to access
 def add_product_to_sale(product_id: int,
                         user_email: str = None,
                         order_id: int = None):
@@ -271,6 +325,7 @@ def add_product_to_sale(product_id: int,
 
 
 # remove the first matching element
+# use either order_id or user_email to access
 def remove_product_from_order(product_id: int, user_email: str = None, order_id: int = None):
     if order_id is not None:
         p_list = get_one_order(order_id=order_id)["product_id_list"].remove(product_id)
@@ -285,6 +340,7 @@ def remove_product_from_order(product_id: int, user_email: str = None, order_id:
 
 
 # return one row data
+# use either order_id or user_email to access
 def get_one_order(user_email: str = None, order_id: int = None):
     if user_email is not None:
         return order_collection.find_one({"user_email": user_email})
@@ -312,6 +368,7 @@ def create_shopping_cart(user_email: str, product_id_list=None):
     return get_one_sale(insert_result.inserted_id)
 
 
+# use either shopping_cart_id or user_email to access
 def add_product_to_shopping_cart(product_id: int,
                                  shopping_cart_id: int = None,
                                  user_email: str = None):
@@ -328,6 +385,7 @@ def add_product_to_shopping_cart(product_id: int,
 
 
 # remove the first matching element
+# use either shopping_cart_id or user_email to access
 def remove_product_from_shopping_cart(product_id: int,
                                       shopping_cart_id: int = None,
                                       user_email: str = None):
@@ -344,6 +402,7 @@ def remove_product_from_shopping_cart(product_id: int,
 
 
 # return one row data
+# use either shopping_cart_id or user_email to access
 def get_one_shopping_cart(user_email: str = None,
                           shopping_cart_id: int = None):
     if shopping_cart_id is not None:
