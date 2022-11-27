@@ -225,6 +225,8 @@ def remove_product_from_sale(product_id: int,
         return "product removed"
 
 
+
+
 # return one row data
 def get_one_sale(user_email: str = None, sale_id: int = None):
     if sale_id is not None:
