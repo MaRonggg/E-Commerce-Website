@@ -320,7 +320,7 @@ def create_order(user_email: str = None, product_id_list=None):
 
 
 # use either order_id or user_email to access
-def add_product_to_sale(product_id: int,
+def add_product_to_order(product_id: int,
                         user_email: str = None,
                         order_id: int = None):
     if order_id is not None:
