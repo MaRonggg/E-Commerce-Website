@@ -16,15 +16,16 @@ register = Blueprint('register', __name__)
 def reg():
     if request.method == "GET":
         return render_template('register_account.html')
-    else:
+    elif request.method == 'POST':
         # after submit form, store the value into database
         # use the lab for id to find the part
         email = request.form.get("email")
         pas1 = request.form.get("psw")
         pas2 = request.form.get("psw2")
         if pas2 != pas1:
+            # message did not appear
             flash('Passwords should be same!')
-            return redirect(url_for('reg'))
+            return redirect(url_for('register.reg'))
         password = bcrypt.hashpw(request.form.get("psw").encode('utf-8'), salt)
         name = request.form.get("name")
         print(f'reg_info being called')
