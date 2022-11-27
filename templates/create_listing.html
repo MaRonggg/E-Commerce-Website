@@ -10,19 +10,29 @@
 
 {% block body %}
     <p> Please provide the information of the product: </p>
-    <div id="error" style="color: red"></div>
     <label for="imageInput">Image: </label>
     <input id="imageInput" type="file" name="image"><br/>
+
     <label for="nameInput">Name: </label>
-    <input id="nameInput" type="text" name="name">
-    <span id="name_error" style="color: red; display: none;">product name cannot be empty</span><br/>
+    <input id="nameInput" type="text" name="name" placeholder="Name">
+    <span id="nameError" style="color: red; display: none;">Empty Product Name</span><br/>
+
     <label for="descriptionInput">Description: </label>
-    <input id="descriptionInput" type="text" name="description">
-    <span id="description_error" style="color: red; display: none;">product description cannot be empty</span><br/>
+    <input id="descriptionInput" type="text" name="description" placeholder="Description">
+    <span id="descriptionError" style="color: red; display: none;">Empty Product Description</span><br/>
+
+    <label for="auctionCheckInput">Auction: </label>
+    <input id="auctionCheckInput" type="checkbox" name="auctionCheck"><br/>
+
     <label for="priceInput">Price: </label>
-    <input id="priceInput" type="text" name="price">
-    <span id="price_error" style="color: red; display: none;">invalid price</span><br/>
-    <button id="createBtn">create</button>
+    <input id="priceInput" type="text" name="price" placeholder="Format: xxx.xx">
+    <span id="priceError" style="color: red; display: none;">Invalid Price</span><br/>
+
+    <label for="auctionDeadlineInput">Auction Deadline: </label>
+    <input id="auctionDeadlineInput" type="datetime-local" name="auctionDeadline" disabled="true">
+    <span id="auctionDeadlineError" style="color: red; display: none;">Please Choose A Time</span><br/>
+
+    <button id="createBtn">Create</button>
 
     <script src="/script/listing.js"></script>
 {% endblock %}

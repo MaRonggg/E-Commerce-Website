@@ -3,7 +3,7 @@ from pathlib import Path
 from flask_pymongo import MongoClient
 import bcrypt
 
-mongo_client = MongoClient('mongo')
+mongo_client = MongoClient('mongodb://localhost:27017')
 db = mongo_client['5bytes']
 
 # User_accounts(
