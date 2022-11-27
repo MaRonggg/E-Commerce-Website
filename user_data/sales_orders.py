@@ -1,7 +1,4 @@
-import html
-from pathlib import Path
-
-from flask import Blueprint, request, render_template, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for
 import database.database as db
 
 bp = Blueprint('sales_orders', __name__)
@@ -25,15 +22,39 @@ def orders_page():
 def get_sale():
     if 'email' in session:
         user_email = session['email']
-        sales = db.get_all_sale(user_email)
-        return list(sales)
+
+        for_sale = []
+        sold = []
+        products = {'for_sale': for_sale, 'sold': sold}
+
+        data = db.get_one_sale(user_email=user_email)
+
+        if data is not None:
+            for product_id in data['on_sale_products']:
+                product = db.get_one_product(product_id)
+                for_sale.append(product)
+
+            for product_id in data['sold_products']:
+                product = db.get_one_product(product_id)
+                sold.append(product)
+
+        return products
 
 
 @bp.route('/get_orders', methods=['GET'])
 def get_orders():
     if 'email' in session:
         user_email = session['email']
-        orders = db.get_all_order(user_email)
-        return list(orders)
+
+        products = []
+
+        data = db.get_one_order(user_email=user_email)
+
+        if data is not None:
+            for product_id in data['product_id_list']:
+                product = db.get_one_product(product_id)
+                products.append(product)
+
+        return products
 
 

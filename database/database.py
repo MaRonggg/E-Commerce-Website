@@ -3,7 +3,7 @@ from pathlib import Path
 from flask_pymongo import MongoClient
 import bcrypt
 
-mongo_client = MongoClient('mongodb://localhost:27017')
+mongo_client = MongoClient('mongo')
 db = mongo_client['5bytes']
 
 # User_accounts(
@@ -138,7 +138,7 @@ def create_product(product_name: str, product_price: float,
         "product_description": product_description
     }
     insert_result = product_collection.insert_one(product_dict)
-    return product_image_name
+    return product_id
 
 
 def update_product_price(product_id: int, product_price: float):
@@ -212,7 +212,8 @@ def add_product_to_on_sale(product_id: int,
                                    {"$set": {"on_sale_products": p_list}})
         return "product added"
     if user_email is not None:
-        p_list = get_one_sale(user_email=user_email)["on_sale_products"].append(product_id)
+        p_list = get_one_sale(user_email=user_email)["on_sale_products"]
+        p_list.append(product_id)
         sale_collection.update_one({"user_email": user_email},
                                    {"$set": {"on_sale_products": p_list}})
         return "product added"
@@ -228,7 +229,8 @@ def add_product_to_sold(product_id: int,
                                    {"$set": {"sold_products": p_list}})
         return "product added"
     if user_email is not None:
-        p_list = get_one_sale(user_email=user_email)["sold_products"].append(product_id)
+        p_list = get_one_sale(user_email=user_email)["sold_products"]
+        p_list.append(product_id)
         sale_collection.update_one({"user_email": user_email},
                                    {"$set": {"sold_products": p_list}})
         return "product added"
@@ -257,7 +259,8 @@ def remove_product_from_on_sale(product_id: int,
                                    {"$set": {"on_sale_products": p_list}})
         return "product removed"
     if user_email is not None:
-        p_list = get_one_sale(user_email=user_email)["on_sale_products"].remove(product_id)
+        p_list = get_one_sale(user_email=user_email)["on_sale_products"]
+        p_list.remove(product_id)
         sale_collection.update_one({"user_email": user_email},
                                    {"$set": {"on_sale_products": p_list}})
         return "product removed"
@@ -320,6 +323,22 @@ def add_product_to_sale(product_id: int,
     if user_email is not None:
         p_list = get_one_order(user_email=user_email)["product_id_list"].append(product_id)
         sale_collection.update_one({"user_email": user_email},
+                                   {"$set": {"product_id_list": p_list}})
+        return "product added"
+
+
+def add_product_to_order(product_id: int,
+                         user_email: str = None,
+                         order_id: int = None):
+    if order_id is not None:
+        p_list = get_one_order(order_id=order_id)["product_id_list"].append(product_id)
+        order_collection.update_one({"_id": order_id},
+                                   {"$set": {"product_id_list": p_list}})
+        return "product added"
+    if user_email is not None:
+        p_list = get_one_order(user_email=user_email)["product_id_list"]
+        p_list.append(product_id)
+        order_collection.update_one({"user_email": user_email},
                                    {"$set": {"product_id_list": p_list}})
         return "product added"
 
