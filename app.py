@@ -2,6 +2,7 @@ from pathlib import Path
 
 from flask import render_template, session
 from user_data.listing import bp as listing_bp
+from user_data.sales_orders import bp as sales_orders_bp
 from user_data.cart import cartbp as cart_bp
 from Auth.register_account import register as reg
 from Auth.login import auth as login
@@ -9,6 +10,7 @@ from flask import Flask
 
 app = Flask(__name__)
 app.register_blueprint(listing_bp)
+app.register_blueprint(sales_orders_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(reg)
 app.register_blueprint(login)
@@ -18,14 +20,14 @@ app.secret_key = "aisjdioajdiowqjiodjasiojdioqw"
 @app.route('/', methods=['GET'])
 def main_page():
     # 判断用户是否登录
-    if "email" in session:
-        email = session['email']
-        return render_template('logined.html', email=email)
+    # if "email" in session:
+    #     email = session['email']
+    #     return render_template('logined.html', email=email)
     return render_template('main_page.html')
 
 
 @app.route('/script/<js_filename>', methods=['GET'])
-def send_main_js(js_filename):
+def send_js(js_filename):
     with open(Path(__file__).parent / ('front_end/' + js_filename), 'rb') as js:
         return js.read()
 

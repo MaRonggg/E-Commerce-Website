@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+    orders page
+{% endblock %}
+
+{% block event %}
+onload="getOrders();"
+{% endblock %}
+
+{% block head %}
+    <h1 id="orders_msg"></h1>
+{% endblock %}
+
+{% block body %}
+    <div id="orders"></div>
+
+    <script src="/script/orders.js"></script>
+{% endblock %}
