@@ -29,7 +29,7 @@ def display():
         return product_list
 
 @cartbp.route('/add_to_cart', methods=['POST'])
-def delete_item():
+def add_item():
     email = session['email']
     product_id = int(html.escape(request.form.get('add_id')))
     add_product_to_shopping_cart(product_id, user_email=email)
@@ -64,6 +64,8 @@ def checkout():
 
     res = "Thank You"
     return res
+
+
 
 
 
