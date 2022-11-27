@@ -35,25 +35,5 @@ def reg():
         return redirect(url_for('auth.login'))
 
 
-# after submit form, store the value into database
-# @register.route('/registration', methods=['POST'])
-# def reg_info():
-#     # after submit form, store the value into database
-#     # use the lab for id to find the part
-#     username = request.form.get("uname")
-#     password = request.form.get("psw")
-#     print(f'reg_info being called')
-#     print(request)
-#     print(f'username would be {username}')
-#     print(f'password would be {password}')
-#
-#     # # store username and password into database
-#     # email = 'hh@gmail.com>>'
-#     # db.create_user_account(email, password.encode(), username)
-#     #
-#     # # print result
-#     # res = db.get_one_user('hh@gmail.com>>', password.encode())
-#     # print(res)
-
 
 
