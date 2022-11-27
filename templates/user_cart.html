@@ -1,16 +1,13 @@
-{% extends "base_shoppingcart_zhexi.html" %}
+{% extends "base_shoppingcart.html" %}
 {% block title %}
     view_cart
 {% endblock %}
 {% block head %}
-    <h2>Shopping Bag</h2>
+    <h2>Shopping Cart</h2>
+    <h6>click image to delete</h6>
 {% endblock %}
 {% block message %}
-    {% for image in nav %}
-        <button  onclick="delete_from_cart({{ image }});"><img src="/+{{ image }}" width="300" height="300">  </button><br/>
-    {% endfor %}
- {% endblock %}
-{% block redirect %}
-
-
+    onload="user_cart();"
+    <div id="items"></div>
 {% endblock %}
+
