@@ -1,44 +1,30 @@
-$('#Submit').click(function() {
-
-    const Account = $('#CartAccount').val();
-    const Password = $('#CartPassword').val();
-
-
-    if (Account.length > 0 && Password.length > 0 ) {
-            const formData = new FormData();
-            formData.append('id', Account);
-            $.ajax({
-            url: '/checkinfor',
+function delete_from_cart(product_image) {
+        const formData = new FormData();
+        formData.append('image', product_image);
+      $.ajax({
+            url: '/delete_from_cart',
             method: 'POST',
             data: formData,
             contentType: false,
             processData: false,
             success: function (res) {
-                eppass= res["password"]
-                }
-            });
-        if (Password===eppass) {
-            $.ajax({
-                url: '/showcart',
-                method: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (res) {
+                alert("deleted")
+            }
+        })
+}
 
-                    $('#CartAccount').val('');
-                    $('#CartPassword').val('');
-                }
-            })
-        } else {
-            document.getElementById('error').innerHTML = 'Incorrect Account or Password';
-
-        }
-    } else {
-        document.getElementById('error').innerHTML = 'Please provide a valid account and password';
-
-    }
+$('#checkout').click(function() {
+        $.ajax({
+            url: '/checkout_cart',
+            method: 'GET',
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                alert("bought")
+            }
+        })
 })
+
 
 
 

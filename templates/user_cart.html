@@ -1,27 +1,16 @@
 {% extends "base_shoppingcart_zhexi.html" %}
-
+{% block title %}
+    view_cart
+{% endblock %}
+{% block head %}
+    <h2>Shopping Bag</h2>
+{% endblock %}
 {% block message %}
-
-    {% for goods in nav %}
-        <div class="container">
-        # how to fetch image
-        <img src="{{goods["product_images"]}}.jpg" alt="It's a product" class="my_image" width="500" height="600" />
-        <h1>{{goods["product_name"]}}</h1>
-        <p>{{goods["product_description"]}}</p>
-        <p>{{goods["product_price"]}}</p>
-        </div>
-        # use innerhtml to append a bottom
-        <div id="aitem"></div>
+    {% for image in nav %}
+        <button  onclick="delete_from_cart({{ image }});"><img src="/+{{ image }}" width="300" height="300">  </button><br/>
     {% endfor %}
  {% endblock %}
-
-    {% block test %}
-
-
-
-
-
-
+{% block redirect %}
 
 
 {% endblock %}
