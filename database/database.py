@@ -142,9 +142,7 @@ def create_product(product_name: str, product_price: float,
         "product_image": product_image_name,
         "product_description": product_description,
         "auction_end_time": auction_end_time
-
     }
-    x = datetime.datetime(1111, 1, 1)
     insert_result = product_collection.insert_one(product_dict)
     return product_id
 
