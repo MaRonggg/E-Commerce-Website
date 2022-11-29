@@ -469,3 +469,5 @@ def __get_next_id_for(collection):
     else:
         collection.insert_one({"last_id": 1})
         return 1
+    
+    
