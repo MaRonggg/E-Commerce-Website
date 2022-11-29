@@ -374,12 +374,12 @@ def get_all_order():
 def create_shopping_cart(user_email: str, product_id_list=None):
     if product_id_list is None:
         product_id_list = []
-    sale_dict = {
+    shopping_cart_dict = {
         "_id": __get_next_shopping_cart_id(),
         "user_email": user_email,
         "product_id_list": product_id_list
     }
-    insert_result = product_collection.insert_one(sale_dict)
+    insert_result = shopping_cart_collection.insert_one(shopping_cart_dict)
     return get_one_sale(insert_result.inserted_id)
 
 
@@ -390,13 +390,13 @@ def add_product_to_shopping_cart(product_id: int,
     if shopping_cart_id is not None:
         p_list = get_one_shopping_cart(shopping_cart_id=shopping_cart_id)["product_id_list"]
         p_list.append(product_id)
-        sale_collection.update_one({"_id": shopping_cart_id},
+        shopping_cart_collection.update_one({"_id": shopping_cart_id},
                                    {"$set": {"product_id_list": p_list}})
         return "product added"
     if user_email is not None:
         p_list = get_one_shopping_cart(user_email=user_email)["product_id_list"]
         p_list.append(product_id)
-        sale_collection.update_one({"user_email": user_email},
+        shopping_cart_collection.update_one({"user_email": user_email},
                                    {"$set": {"product_id_list": p_list}})
         return "product added"
 
@@ -409,16 +409,16 @@ def remove_product_from_shopping_cart(product_id: int,
     if shopping_cart_id is not None:
         p_list = get_one_shopping_cart(shopping_cart_id=shopping_cart_id)["product_id_list"]
         p_list.remove(product_id)
-        sale_collection.update_one({"_id": shopping_cart_id},
+        shopping_cart_collection.update_one({"_id": shopping_cart_id},
                                    {"$set": {"product_id_list": p_list}})
         return "product removed"
     if user_email is not None:
         p_list = get_one_shopping_cart(user_email=user_email)["product_id_list"]
         p_list.remove(product_id)
-        sale_collection.update_one({"user_email": user_email},
+        shopping_cart_collection.update_one({"user_email": user_email},
                                    {"$set": {"product_id_list": p_list}})
         return "product removed"
-
+#
 
 # return one row data
 # use either shopping_cart_id or user_email to access
