@@ -5,6 +5,10 @@ from flask import session
 from database import database
 from bcrypt import checkpw, gensalt, hashpw
 
+from datetime import timedelta
+from flask import session, app
+
+
 auth = flask.Blueprint("auth", __name__)
 salt = gensalt()
 
@@ -25,11 +29,24 @@ def login():
                 flash('Incorrect password.')
                 return redirect(url_for('auth.login'))
             else:
-                session["email"] = email
+                session['email'] = email
+                # # add  5 minutes time for session to expire
+                session.permanent = True
+                app.permanent_session_lifetime = timedelta(minutes=15)
+                # show message
                 flash('Login success.')
                 return render_template("logined.html", email=email)
     else:
         return render_template("login.html")
+
+@auth.route("/logout", methods=['GET', 'POST'])
+def logout():
+        if 'email' in session:
+            session.pop('email', None)
+            return render_template('logout.html')
+        else:
+            return '<p>user already logout</p>'
+
 
 
 

@@ -5,7 +5,15 @@
 {% endblock %}
 
 {% block body %}
-
+{#    # add for display flash() message#}
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         <h1>{{ message }}</h1>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+{#    register form    #}
 <form action="/register" method="post">
     <label for="email"><b>Email</b></label>
     <input type="text" placeholder="Enter Your Email" name="email" required>

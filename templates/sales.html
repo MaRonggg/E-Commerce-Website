@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    sales page
+    items page
 {% endblock %}
 
 {% block event %}
@@ -9,11 +9,17 @@ onload="getSales();"
 {% endblock %}
 
 {% block head %}
-    <h1 id="sales_msg"></h1>
+    <h1>My Items</h1>
 {% endblock %}
 
 {% block body %}
-    <div id="sales"></div>
+    <h3>For Sale:</h3>
+    <div id="forSale"></div>
+
+    <hr>
+
+    <h3>Sold:</h3>
+    <div id="sold"></div>
 
     <script src="/script/sales.js"></script>
 {% endblock %}
