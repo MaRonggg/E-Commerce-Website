@@ -9,6 +9,8 @@ import bcrypt
 mongo_client = MongoClient("mongo")
 db = mongo_client['5bytes']
 
+# xxx
+
 # User_accounts(
 #     user_id: int, password: bytes, email: str, name: str,
 #     address1: str, address2: str, city: str, state: str, zip: str,
