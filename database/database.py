@@ -155,7 +155,7 @@ def set_auction_end_time(product_id,
     product_collection.update_one(
         {"_id": product_id},
         {"$set": {"auction_end_time": auction_end_time}})
-    return "auction_end_time set successful"
+    return auction_end_time
 
 
 def update_product_price(product_id: int, product_price: float):
