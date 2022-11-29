@@ -5,7 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
-<body onload="user_cart();">
+<body {% block message %}{% endblock %}>
 {% block head %}{% endblock %}
 <ul>
   <li>
@@ -15,9 +15,8 @@
 
 
 {% block account %}{% endblock %}
-{% block message %}{% endblock %}
 {% block redirect %}{% endblock %}
 
-<script src="/front_end/cart.js"></script>
+<script src="/script/cart.js"></script>
 </body>
 </html>
