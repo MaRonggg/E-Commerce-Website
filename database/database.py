@@ -130,7 +130,8 @@ def get_all_users():
 
 
 def create_product(product_name: str, product_price: float,
-                   product_description: str = ""):
+                   product_description: str = "",
+                   auction_end_time: datetime = None):
     product_id = __get_next_product_id()
     product_image_name = "image" + str(product_id)
     product_dict = {
@@ -138,10 +139,24 @@ def create_product(product_name: str, product_price: float,
         "product_name": product_name,
         "product_price": product_price,
         "product_image": product_image_name,
-        "product_description": product_description
+        "product_description": product_description,
+        "auction_end_time": auction_end_time
+
     }
+    x = datetime.datetime(1111, 1, 1)
     insert_result = product_collection.insert_one(product_dict)
     return product_id
+
+
+# set_auction_end_time(p_id, 2022, 5, 17, 2, 33, 9) -> 2022-05-17 02:33:09
+def set_auction_end_time(product_id,
+                         year=2022, month=1, day=1,
+                         hour=0, minute=0, second=0, ):
+    auction_end_time = datetime.datetime(year, month, day, hour, minute, second)
+    product_collection.update_one(
+        {"_id": product_id},
+        {"$set": {"auction_end_time": auction_end_time}})
+    return "auction_end_time set successful"
 
 
 def update_product_price(product_id: int, product_price: float):
@@ -391,13 +406,13 @@ def add_product_to_shopping_cart(product_id: int,
         p_list = get_one_shopping_cart(shopping_cart_id=shopping_cart_id)["product_id_list"]
         p_list.append(product_id)
         shopping_cart_collection.update_one({"_id": shopping_cart_id},
-                                   {"$set": {"product_id_list": p_list}})
+                                            {"$set": {"product_id_list": p_list}})
         return "product added"
     if user_email is not None:
         p_list = get_one_shopping_cart(user_email=user_email)["product_id_list"]
         p_list.append(product_id)
         shopping_cart_collection.update_one({"user_email": user_email},
-                                   {"$set": {"product_id_list": p_list}})
+                                            {"$set": {"product_id_list": p_list}})
         return "product added"
 
 
@@ -410,14 +425,16 @@ def remove_product_from_shopping_cart(product_id: int,
         p_list = get_one_shopping_cart(shopping_cart_id=shopping_cart_id)["product_id_list"]
         p_list.remove(product_id)
         shopping_cart_collection.update_one({"_id": shopping_cart_id},
-                                   {"$set": {"product_id_list": p_list}})
+                                            {"$set": {"product_id_list": p_list}})
         return "product removed"
     if user_email is not None:
         p_list = get_one_shopping_cart(user_email=user_email)["product_id_list"]
         p_list.remove(product_id)
         shopping_cart_collection.update_one({"user_email": user_email},
-                                   {"$set": {"product_id_list": p_list}})
+                                            {"$set": {"product_id_list": p_list}})
         return "product removed"
+
+
 #
 
 # return one row data
@@ -467,4 +484,3 @@ def __get_next_id_for(collection):
     else:
         collection.insert_one({"last_id": 1})
         return 1
-    
