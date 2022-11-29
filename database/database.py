@@ -141,7 +141,7 @@ def create_product(product_name: str, product_price: float,
         "product_description": product_description
     }
     insert_result = product_collection.insert_one(product_dict)
-    return product_image_name
+    return product_id
 
 
 def update_product_price(product_id: int, product_price: float):
@@ -326,13 +326,13 @@ def add_product_to_order(product_id: int,
     if order_id is not None:
         p_list = get_one_order(order_id=order_id)["product_id_list"]
         p_list.append(product_id)
-        sale_collection.update_one({"_id": order_id},
+        order_collection.update_one({"_id": order_id},
                                    {"$set": {"product_id_list": p_list}})
         return "product added"
     if user_email is not None:
         p_list = get_one_order(user_email=user_email)["product_id_list"]
         p_list.append(product_id)
-        sale_collection.update_one({"user_email": user_email},
+        order_collection.update_one({"user_email": user_email},
                                    {"$set": {"product_id_list": p_list}})
         return "product added"
 
@@ -343,13 +343,13 @@ def remove_product_from_order(product_id: int, user_email: str = None, order_id:
     if order_id is not None:
         p_list = get_one_order(order_id=order_id)["product_id_list"]
         p_list.remove(product_id)
-        sale_collection.update_one({"_id": order_id},
+        order_collection.update_one({"_id": order_id},
                                    {"$set": {"product_id_list": p_list}})
         return "product removed"
     if user_email is not None:
         p_list = get_one_order(user_email=user_email)["product_id_list"]
         p_list.remove(product_id)
-        sale_collection.update_one({"user_email": user_email},
+        order_collection.update_one({"user_email": user_email},
                                    {"$set": {"product_id_list": p_list}})
         return "product removed"
 
