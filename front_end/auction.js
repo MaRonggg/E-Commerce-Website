@@ -1,6 +1,8 @@
 // Establish a WebSocket connection with the server
 const socket = new WebSocket('ws://' + window.location.host + '/websocket');
 
+const product_id = null;
+
 // Allow users to send messages by pressing enter instead of clicking the Send button
 document.addEventListener("keypress", function (event) {
     if (event.code === "Enter") {
@@ -15,7 +17,7 @@ function offerPrice() {
     priceBox.value = "";
     priceBox.focus();
     if (price !== "") {
-        socket.send(JSON.stringify({'price': price}));
+        socket.send(JSON.stringify({'product_id': this.product_id, 'price': price}));
     }
 }
 
@@ -27,6 +29,7 @@ socket.onmessage = function (ws_message) {
 }
 
 function auctionPage(product_id) {
+    this.product_id = product_id;
     $.get('/get_one_product/' + product_id, function (product) {
         const currHighestBid = product['product_price'] != -1 ? product['product_price'] : 'Currently No Bids';
         const highestBidDisplay = document.getElementById('highestBid');
