@@ -22,12 +22,12 @@ def create_listing():
         name = html.escape(request.form.get('name'))
         description = html.escape(request.form.get('description'))
 
-        if request.form.get('price') is not None:
+        if request.form.get('auction_deadline') is None:
             price = request.form.get('price')
-            product_id = db.create_product(name, price, description)
+            product_id = db.create_product(product_name=name, product_price=price, product_description=description)
         else:
             auction_deadline = request.form.get('auction_deadline')
-            product_id = db.create_product(name, auction_deadline, description)
+            product_id = db.create_product(product_name=name, product_price=-1, product_description=description, auction_end_time=auction_deadline)
 
         image = request.files.get('image')
         image_path = Path(__file__).parent.parent / ('images/image' + str(product_id) + '.jpg')
@@ -89,6 +89,13 @@ def buy_now(product_id):
         db.create_order(user_email=buyer_email)
     db.add_product_to_order(product_id=product_id, user_email=buyer_email)
     return 'Purchased'
+
+
+@bp.route('/auction_page/<product_id>', methods=['GET'])
+def auction_page(product_id):
+    if 'email' not in session:
+        return redirect(url_for('auth.login'))
+    return render_template('auction_page.html', product_id=product_id)
 
 
 

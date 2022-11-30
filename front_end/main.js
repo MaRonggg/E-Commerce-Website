@@ -2,10 +2,17 @@ function getAllOnSaleProducts() {
     $.get('/get_all_on_sale_products', function (products) {
         const productsDisplay = document.getElementById('products');
         for (const product of products) {
-            const info = '<br/>' + 'Product: ' + product['product_name'] + '<br/>' +
+            if (product['auction_end_time'] == null) {
+                const info = '<br/>' + 'Product: ' + product['product_name'] + '<br/>' +
                 'Price: ' + product['product_price'] + '<br/>';
 
-            productsDisplay.innerHTML += '<button onclick="toInfoPage(' + product['_id'] + ');"><img src="/' + product['product_image'] + '" width="300" height="300">' + info + '</button>';
+                productsDisplay.innerHTML += '<button onclick="toInfoPage(' + product['_id'] + ');"><img src="/' + product['product_image'] + '" width="300" height="300">' + info + '</button>';
+            } else {
+                const info = '<br/>' + 'Product: ' + product['product_name'] + '<br/>' +
+                'Auction Deadline: ' + product['auction_end_time'].replace('T', ' ') + '<br/>';
+
+                productsDisplay.innerHTML += '<button onclick="toInfoPage(' + product['_id'] + ');"><img src="/' + product['product_image'] + '" width="300" height="300">' + info + '</button>';
+            }
         }
     })
 }

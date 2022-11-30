@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    auction page
+{% endblock %}
+
+{% block event %}
+onload="auctionPage({{product_id}});"
+{% endblock %}
+
+{% block head %}
+    <h1>Product Auction Page</h1>
+{% endblock %}
+
+{% block body %}
+
+    <h3 id="highestBid"></h3>
+
+    <div id="info"></div>
+
+    <label for="offered_price">Make Your Offer: </label>
+    <input id="offered_price" type="text" name="price">
+    <button onclick="offerPrice()">Offer</button>
+
+    <script src="/script/auction.js"></script>
+{% endblock %}
