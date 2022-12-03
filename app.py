@@ -9,13 +9,27 @@ from Auth.login import auth as login
 from flask import Flask
 import database.database as db
 
+from flask import Flask, render_template
+from flask_socketio import SocketIO, send
+
 app = Flask(__name__)
 app.register_blueprint(listing_bp)
 app.register_blueprint(sales_orders_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(reg)
 app.register_blueprint(login)
-app.secret_key = "aisjdioajdiowqjiodjasiojdioqw"
+# app.secret_key = "aisjdioajdiowqjiodjasiojdioqw"
+
+# app = Flask(__name__)
+app.config['SECRET_KEY'] = 'mysecret'
+socketio = SocketIO(app, cors_allowed_origins='http://localhost:8000')
+
+
+# enable message show on webpage
+@socketio.on('message')
+def handleMessage(msg):
+    print('Message: ' + msg)
+    send(msg, broadcast=True)
 
 
 @app.route('/', methods=['GET'])
@@ -27,6 +41,12 @@ def main_page():
         username = data['name']
         return render_template('main_page.html', username=username)
     return render_template('main_page.html')
+
+
+# @app.route('/websocket', methods=['GET', 'POST'])
+# def pr():
+#     print('enter the websocket')
+#     return render_template('main_page.html')
 
 
 @app.route('/script/<js_filename>', methods=['GET'])
@@ -54,4 +74,5 @@ def send_image(image_id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    # app.run(host='0.0.0.0', port=8000, debug=True)
+    socketio.run(app, port=8000)
