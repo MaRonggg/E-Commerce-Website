@@ -1,5 +1,12 @@
 // Establish a WebSocket connection with the server
-const socket = new WebSocket('ws://' + window.location.host + '/websocket');
+// const socket = new WebSocket('ws://' + window.location.host + '/websocket');
+
+// import socket from 'templates/auction_page.html'
+
+const socket = io("http://localhost:8000", { transports: ["websocket"] });
+
+// var socket = io({transports: ['websocket']}).connect('http://127.0.0.1:/websocket');
+
 
 const product_id = null;
 

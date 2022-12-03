@@ -10,6 +10,9 @@ onload="auctionPage({{product_id}});"
 
 {% block head %}
     <h1>Product Auction Page</h1>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+
 {% endblock %}
 
 {% block body %}
@@ -22,5 +25,39 @@ onload="auctionPage({{product_id}});"
     <input id="offered_price" type="text" name="price">
     <button onclick="offerPrice()">Offer</button>
 
+
     <script src="/script/auction.js"></script>
+
+
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+
+        const socket = io("http://localhost:8000", { transports: ["websocket"] });
+        socket.on('connect', function() {
+	        socket.send('User has connected!');
+	    });
+
+
+            socket.on('connect', function() {
+         	socket.send('User has connected!');
+        });
+
+        socket.on('message', function(msg) {
+            $("#messagesaa").append('<li>'+msg+'</li>');
+            console.log('Received message');
+        });
+
+        $('#sendbutton').on('click', function() {
+            socket.send($('#myMessage').val());
+            $('#myMessage').val('');
+        });
+
+    });
+    </script>
+    <ul id="messagesaa"></ul>
+    <input type="text" id="myMessage">
+    <button id="sendbutton">Send</button>
+
+
 {% endblock %}
