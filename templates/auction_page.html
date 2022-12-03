@@ -21,43 +21,17 @@ onload="auctionPage({{product_id}});"
 
     <div id="info"></div>
 
+    <ul id="price"></ul>
     <label for="offered_price">Make Your Offer: </label>
     <input id="offered_price" type="text" name="price">
-    <button onclick="offerPrice()">Offer</button>
+    <button id="sendbutton" onclick="offerPrice()">Offer</button>
 
 
     <script src="/script/auction.js"></script>
 
-
-
-    <script type="text/javascript">
-    $(document).ready(function() {
-
-        const socket = io("http://localhost:8000", { transports: ["websocket"] });
-        socket.on('connect', function() {
-	        socket.send('User has connected!');
-	    });
-
-
-            socket.on('connect', function() {
-         	socket.send('User has connected!');
-        });
-
-        socket.on('message', function(msg) {
-            $("#messagesaa").append('<li>'+msg+'</li>');
-            console.log('Received message');
-        });
-
-        $('#sendbutton').on('click', function() {
-            socket.send($('#myMessage').val());
-            $('#myMessage').val('');
-        });
-
-    });
-    </script>
-    <ul id="messagesaa"></ul>
-    <input type="text" id="myMessage">
-    <button id="sendbutton">Send</button>
+{#    <ul id="messagesaa"></ul>#}
+{#    <input type="text" id="myMessage">#}
+{#    <button id="sendbutton">Send</button>#}
 
 
 {% endblock %}

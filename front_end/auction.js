@@ -10,6 +10,28 @@ const socket = io("http://localhost:8000", { transports: ["websocket"] });
 
 const product_id = null;
 
+$(document).ready(function() {
+
+        // const socket = io("http://localhost:8000", { transports: ["websocket"] });
+        //
+            socket.on('connect', function() {
+         	socket.send('User has connected!');
+        });
+
+        socket.on('message', function(msg) {
+            $("#price").append('<li>'+msg+'</li>');
+            console.log('Received message');
+        });
+
+        // // $('#sendbutton').on('click', function() {
+        //     socket.send($('#offered_price').val());
+        //     $('#offered_price').val('');
+        // });
+
+    });
+
+
+
 // Allow users to send messages by pressing enter instead of clicking the Send button
 document.addEventListener("keypress", function (event) {
     if (event.code === "Enter") {
@@ -25,7 +47,10 @@ function offerPrice() {
     priceBox.focus();
     if (price !== "") {
         socket.send(JSON.stringify({'product_id': this.product_id, 'price': price}));
+
     }
+    // socket.send($('#myMessage').val());
+    // $('#myMessage').val('');
 }
 
 // Called whenever data is received from the server over the WebSocket connection
