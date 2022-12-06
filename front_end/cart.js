@@ -5,7 +5,7 @@ function user_cart(){
         let temp_contain =""
         for (const product of res){
             const info = '<br/>' + 'Product: ' + product['product_name'] + '<br/>' +
-                'Price: ' + product['product_price'] + '<br/>';
+                'Price: ' + parseFloat(product['product_price']).toFixed(2)+ '<br/>';
             total = total+ parseInt(product['product_price'])
             temp_contain = temp_contain + '<button onclick="delete_from_cart(' + product['_id'] + ');"><img src="/' + product['product_image'] + '" width="300" height="300">' + info + '</button>';
 
@@ -31,7 +31,7 @@ function delete_from_cart(product_id) {
 
                 for (const product of res) {
                 const info = '<br/>' + 'Product: ' + product['product_name'] + '<br/>' +
-                'Price: ' + product['product_price'] + '<br/>';
+                'Price: ' + parseFloat(product['product_price']).toFixed(2)+ '<br/>';
                 total = total+ parseInt(product['product_price'])
 
                 temp_contain = temp_contain+ '<button onclick="delete_from_cart(' + product['_id'] + ');"><img src="/' + product['product_image'] + '" width="300" height="300">' + info + '</button>';
