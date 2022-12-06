@@ -4,8 +4,7 @@
 // import socket from 'templates/auction_page.html'
 // <script src="/socket.io/socket.io.js"></script>
 
-
-const socket = io("http://localhost:8000", { transports: ["websocket"] });
+const socket = io("http://" + location.host, { transports: ["websocket"] });
 // const socket = io("http://localhost:8080/auction_page/product_id=${pid}", { transports: ["websocket"] });
 
 // var socket = io({transports: ['websocket']}).connect('http://127.0.0.1:/websocket');
