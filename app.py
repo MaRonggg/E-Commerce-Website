@@ -1,15 +1,13 @@
 from pathlib import Path
 
-from flask import render_template, session
 from user_data.listing import bp as listing_bp
 from user_data.sales_orders import bp as sales_orders_bp
 from user_data.cart import cartbp as cart_bp
 from Auth.register_account import register as reg
 from Auth.login import auth as login
-from flask import Flask
 import database.database as db
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from flask_socketio import SocketIO, send
 
 app = Flask(__name__)
@@ -22,7 +20,9 @@ app.register_blueprint(login)
 
 # app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
-socketio = SocketIO(app, cors_allowed_origins='http://localhost:8000')
+socketio = SocketIO(app, cors_allowed_origins=['*',
+                                               'http://localhost:8000',
+                                               'http://localhost:8080'])
 
 
 # enable message show on webpage
@@ -75,4 +75,7 @@ def send_image(image_id):
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=8000, debug=True)
-    socketio.run(app, port=8000)
+    # socketio.run(app, port=8000)
+    socketio.run(app, host='0.0.0.0', port=8000, debug=True)
+
+
