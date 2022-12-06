@@ -22,9 +22,10 @@ onload="auctionPage({{product_id}});"
     <div id="info"></div>
 
     <ul id="price"></ul>
-    <label for="offered_price">Make Your Offer: </label>
-    <input id="offered_price" type="text" name="price">
-    <button id="sendbutton" onclick="offerPrice()">Offer</button>
+    <label for="offeredPrice">Make Your Offer: </label>
+    <input id="offeredPrice" type="text" name="price">
+    <button id="sendButton" onclick="offerPrice()">Offer</button>
+    <span id="offeredPriceError" style="color: red; display: none;">Invalid Price</span>
 
 
     <script src="/script/auction.js"></script>

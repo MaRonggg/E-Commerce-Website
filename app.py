@@ -32,7 +32,7 @@ socketio = SocketIO(app, cors_allowed_origins=['*',
 def handleMessage(msg):
     if "email" in session:
         user_email = session['email']
-        product_price = int(json.loads(msg)['price'])
+        product_price = float(json.loads(msg)['price'])
         product_id = int(json.loads(msg)['product_id'])
 
         # update_result returns bool, true -> eligible update
@@ -42,9 +42,12 @@ def handleMessage(msg):
                                                datetime.datetime.now())
         if update_result:
             product_name = db.get_one_product(product_id)['product_name']
-            offer_message = f'{user_email} offered ${product_price} for {product_name}!'
-            print(offer_message)
-            send(offer_message, broadcast=True)
+            username = db.get_one_user(user_email)['name']
+            # offer_message = f'{user_email} offered ${product_price} for {product_name}!'
+            # print(offer_message)
+            # send(offer_message, broadcast=True)
+            data = {'username': username, 'productName': product_name, 'price': product_price}
+            send(data, broadcast=True)
         else:
             send('', broadcast=True)
             # alterMessage()

@@ -8,7 +8,7 @@ function infoPage(product_id) {
                 '<td><img src="/' + product['product_image'] + '" width="300" height="300"></td>' +
                 '<td>Name: ' + product['product_name'] + '<br>' +
                 'Description: ' + product['product_description'] + '<br>' +
-                'Price: ' + product['product_price'] + '<br>' +
+                'Price: ' + parseFloat(product['product_price']).toFixed(2) + '<br>' +
                 '<button onclick="addToCart(' + product_id + ');">Add to Cart</button>' + '<br>' +
                 '<button onclick="buyNow(' + product_id + ');">Buy Now</button></td>' +
                 '</tr>' +

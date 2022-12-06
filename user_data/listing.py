@@ -23,6 +23,8 @@ def create_listing():
         name = html.escape(request.form.get('name'))
         description = html.escape(request.form.get('description'))
 
+        request.headers
+
         if request.form.get('auction_deadline') is None:
             price = request.form.get('price')
             product_id = db.create_product(product_name=name, product_price=price, product_description=description)
@@ -70,11 +72,12 @@ def info_page(product_id):
 
 
 @bp.route('/buy_now/<product_id>', methods=['GET'])
-def buy_now(product_id):
+def buy_now(product_id, buyer_email=None):
     if 'email' not in session:
         return 'Not Logged In'
 
-    buyer_email = session['email']
+    if buyer_email is None:
+        buyer_email = session['email']
     seller_email = None
     product_id = int(product_id)
 

@@ -45,7 +45,7 @@ document.getElementById('auctionCheckInput').addEventListener('change', (event) 
 document.getElementById('priceInput').onblur = checkPrice;
 function checkPrice() {
     const price = $('#priceInput').val().trim();
-    const flag = price.match(/^\d+\.\d{2}$/);
+    const flag = price.match(/^\d+(\.\d{1,2})?$/);
     if (flag) {
         document.getElementById('priceError').style.display = 'none';
     } else {
