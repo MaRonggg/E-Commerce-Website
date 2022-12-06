@@ -1,3 +1,4 @@
+import datetime
 import html
 from pathlib import Path
 
@@ -27,7 +28,13 @@ def create_listing():
             product_id = db.create_product(product_name=name, product_price=price, product_description=description)
         else:
             auction_deadline = request.form.get('auction_deadline')
-            product_id = db.create_product(product_name=name, product_price=-1, product_description=description, auction_end_time=auction_deadline)
+            print(auction_deadline)
+            print(datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M'))
+            print(type(auction_deadline))
+            auction_deadline_datetime = datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M')
+            product_id = db.create_product(product_name=name, product_price=-1,
+                                           product_description=description,
+                                           auction_end_time=auction_deadline_datetime)
 
         image = request.files.get('image')
         image_path = Path(__file__).parent.parent / ('images/image' + str(product_id) + '.jpg')

@@ -477,6 +477,7 @@ def update_auction_item(new_user_email,
                         current_time: datetime):
     old_product_price = get_one_product(product_id)["product_price"]
     auction_end_time = get_one_product(product_id)["auction_end_time"]
+    print('tttttttttt',auction_end_time, type(auction_end_time))
     if old_product_price < new_price and current_time < auction_end_time:
         auction_items_collection.update_one({"product_id": product_id},
                                             {"$set": {"user_email": new_user_email}})

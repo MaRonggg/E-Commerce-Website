@@ -1,3 +1,4 @@
+import datetime
 import json
 from pathlib import Path
 from flask import request
@@ -26,33 +27,25 @@ socketio = SocketIO(app, cors_allowed_origins=['*',
                                                'http://localhost:8080'])
 
 
-# @socketio.on('connect')
-# def connect():
-#     foo = request.args.get('foo')
-#     print(foo)
-#     print(foo)
-#     print(foo)
-
-
 # enable message show on webpage
-@socketio.on('message', namespace='/')
+@socketio.on('message')
 def handleMessage(msg):
-    print('Message: ' + msg)
-    # get product id, get current user email
-    # message is a price and id
-    # use product id and price to change database
     if "email" in session:
-        email = session['email']
-        data = db.get_one_user(email)
-        username = data['name']
-        print(f'current user email would be {email}')
-        print(f'the user name would be {username}')
-        price_dict = json.loads(msg)
-        price = price_dict['price']
-        product_id = price_dict['product_id']
-        print(f'price is {price} and product_id is {product_id}')
-        print(f'user {email} offer price {price}')
-    send(msg, broadcast=True)
+        user_email = session['email']
+        product_price = int(json.loads(msg)['price'])
+        product_id = int(json.loads(msg)['product_id'])
+
+        # update_result returns bool, true -> eligible update
+        update_result = db.update_auction_item(user_email,
+                                               product_id,
+                                               product_price,
+                                               datetime.datetime.now())
+        if update_result:
+            product_name = db.get_one_product(product_id)
+            offer_message = f'{user_email} offered ${product_price} for {product_name}!'
+            print(offer_message)
+            send(offer_message, broadcast=True)
+
 
 
 @app.route('/', methods=['GET'])
@@ -65,10 +58,6 @@ def main_page():
         return render_template('main_page.html', username=username)
     return render_template('main_page.html')
 
-
-# @app.route('/hey', methods=['GET'])
-# def page():
-#     return render_template('main_page.html')
 
 # @app.route('/websocket', methods=['GET', 'POST'])
 # def pr():
@@ -104,3 +93,5 @@ if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=8000, debug=True)
     # socketio.run(app, port=8000)
     socketio.run(app, host='0.0.0.0', port=8000, debug=True)
+
+
