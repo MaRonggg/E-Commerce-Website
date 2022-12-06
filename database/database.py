@@ -338,19 +338,19 @@ def create_order(user_email: str = None, product_id_list=None):
 
 # use either order_id or user_email to access
 def add_product_to_order(product_id: int,
-                        user_email: str = None,
-                        order_id: int = None):
+                         user_email: str = None,
+                         order_id: int = None):
     if order_id is not None:
         p_list = get_one_order(order_id=order_id)["product_id_list"]
         p_list.append(product_id)
         order_collection.update_one({"_id": order_id},
-                                   {"$set": {"product_id_list": p_list}})
+                                    {"$set": {"product_id_list": p_list}})
         return "product added"
     if user_email is not None:
         p_list = get_one_order(user_email=user_email)["product_id_list"]
         p_list.append(product_id)
         order_collection.update_one({"user_email": user_email},
-                                   {"$set": {"product_id_list": p_list}})
+                                    {"$set": {"product_id_list": p_list}})
         return "product added"
 
 
@@ -361,13 +361,13 @@ def remove_product_from_order(product_id: int, user_email: str = None, order_id:
         p_list = get_one_order(order_id=order_id)["product_id_list"]
         p_list.remove(product_id)
         order_collection.update_one({"_id": order_id},
-                                   {"$set": {"product_id_list": p_list}})
+                                    {"$set": {"product_id_list": p_list}})
         return "product removed"
     if user_email is not None:
         p_list = get_one_order(user_email=user_email)["product_id_list"]
         p_list.remove(product_id)
         order_collection.update_one({"user_email": user_email},
-                                   {"$set": {"product_id_list": p_list}})
+                                    {"$set": {"product_id_list": p_list}})
         return "product removed"
 
 
@@ -468,21 +468,37 @@ def create_auction_item(user_email, product_id):
     auction_items_collection.insert_one(auction_item_dict)
     return get_one_auction_item(user_email=user_email)
 
-# def update_auction_item(new_user_email,
-#                         product_id,
-#                         new_price: float):
-#     item = get_one_auction_item(product_id=product_id)
-#     old_product_price =
-#     if item
-#     auction_items_collection.update_one({{"product_id": product_id},
-#                                          {"$set": {"user_email": new_user_email}}})
+
+# another user offer a higher price.
+# method updates the user and price of product.
+def update_auction_item(new_user_email,
+                        product_id,
+                        new_price: float,
+                        current_time: datetime):
+    old_product_price = get_one_product(product_id)["product_price"]
+    auction_end_time = get_one_product(product_id)["auction_end_time"]
+    if old_product_price < new_price and current_time < auction_end_time:
+        auction_items_collection.update_one({"product_id": product_id},
+                                            {"$set": {"user_email": new_user_email}})
+        update_product_price(product_id=product_id, product_price=new_price)
+        return True
+    else:
+        return False
 
 
-def get_one_auction_item(user_email: str = None, product_id: int = None):
+def delete_one_auction_item(product_id: int):
+    auction_items_collection.delete_one({"product_id": product_id})
+
+
+def get_one_auction_item(product_id: int = None, user_email: str = None):
     if product_id is not None:
         return auction_items_collection.find_one({"product_id": product_id})
     if user_email is not None:
         return auction_items_collection.find_one({"user_email": user_email})
+
+
+def get_all_auction_items():
+    return [item for item in auction_items_collection.find({})]
 
 # ------------ auction_items_collection methods end --------------------
 
