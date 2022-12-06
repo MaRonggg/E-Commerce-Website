@@ -41,10 +41,14 @@ def handleMessage(msg):
                                                product_price,
                                                datetime.datetime.now())
         if update_result:
-            product_name = db.get_one_product(product_id)
+            product_name = db.get_one_product(product_id)['product_name']
             offer_message = f'{user_email} offered ${product_price} for {product_name}!'
             print(offer_message)
             send(offer_message, broadcast=True)
+        else:
+            send('', broadcast=True)
+            # alterMessage()
+
 
 
 

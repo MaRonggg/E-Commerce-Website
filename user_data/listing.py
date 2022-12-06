@@ -28,9 +28,10 @@ def create_listing():
             product_id = db.create_product(product_name=name, product_price=price, product_description=description)
         else:
             auction_deadline = request.form.get('auction_deadline')
-            print(auction_deadline)
-            print(datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M'))
-            print(type(auction_deadline))
+            # print(auction_deadline)
+            # print(datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M'))
+            # print(type(auction_deadline))
+            # convert auction_deadline string to datetime.datetime
             auction_deadline_datetime = datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M')
             product_id = db.create_product(product_name=name, product_price=-1,
                                            product_description=description,

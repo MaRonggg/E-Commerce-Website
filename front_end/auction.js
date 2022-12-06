@@ -24,7 +24,14 @@ $(document).ready(function() {
         });
 
         socket.on('message', function(msg) {
-            $("#price").append('<li>'+msg+'</li>');
+            if (msg === ''){
+                alterMessage()
+            }
+            else {
+                $("#price").append('<li>'+msg+'</li>');
+            }
+
+
             console.log('Received message');
         });
 
@@ -34,6 +41,10 @@ $(document).ready(function() {
         // });
 
     });
+
+function alterMessage(){
+    alert('Invalid bid. Enter price is lower than the current highest price. ')
+}
 
 
 
@@ -54,7 +65,6 @@ function offerPrice() {
         // in here, we can to show who offer the price, we need to know the user
         // socket.send(JSON.stringify({'product_id': this.u, 'price': price}));
         socket.send(JSON.stringify({'product_id': this.product_id, 'price': price}));
-
     }
     // socket.send($('#myMessage').val());
     // $('#myMessage').val('');
