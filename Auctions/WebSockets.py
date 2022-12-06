@@ -1,4 +1,4 @@
-import time
+# import time
 
 from flask import render_template
 from flask_socketio import send
@@ -9,11 +9,11 @@ from __init__ import socketio
 # socketio = SocketIO(auction)
 
 
-@socketio.on('message')
-def handle_message(msg):
-    print('message: ' + msg)
-    # send price offer if auction is not end
-    send(msg, broadcast=True)
+# @socketio.on('message')
+# def handle_message(msg):
+#     print('message: ' + msg)
+#     # send price offer if auction is not end
+#     send(msg, broadcast=True)
 from app import app
 
 # app.config['SECRET_KEY'] = 'mysecret'

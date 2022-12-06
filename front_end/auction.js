@@ -6,6 +6,7 @@
 
 
 const socket = io("http://localhost:8080", { transports: ["websocket"] });
+// const socket = io("http://localhost:8080/auction_page/product_id=${pid}", { transports: ["websocket"] });
 
 // var socket = io({transports: ['websocket']}).connect('http://127.0.0.1:/websocket');
 
@@ -17,6 +18,8 @@ $(document).ready(function() {
         // const socket = io("http://localhost:8000", { transports: ["websocket"] });
         //
             socket.on('connect', function() {
+                // in here, we would like to know which user connect to our auction
+
          	socket.send('User has connected!');
         });
 
@@ -48,6 +51,8 @@ function offerPrice() {
     priceBox.value = "";
     priceBox.focus();
     if (price !== "") {
+        // in here, we can to show who offer the price, we need to know the user
+        // socket.send(JSON.stringify({'product_id': this.u, 'price': price}));
         socket.send(JSON.stringify({'product_id': this.product_id, 'price': price}));
 
     }

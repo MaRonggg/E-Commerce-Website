@@ -1,5 +1,6 @@
+import json
 from pathlib import Path
-
+from flask import request
 from user_data.listing import bp as listing_bp
 from user_data.sales_orders import bp as sales_orders_bp
 from user_data.cart import cartbp as cart_bp
@@ -25,10 +26,32 @@ socketio = SocketIO(app, cors_allowed_origins=['*',
                                                'http://localhost:8080'])
 
 
+# @socketio.on('connect')
+# def connect():
+#     foo = request.args.get('foo')
+#     print(foo)
+#     print(foo)
+#     print(foo)
+
+
 # enable message show on webpage
-@socketio.on('message')
+@socketio.on('message', namespace='/')
 def handleMessage(msg):
     print('Message: ' + msg)
+    # get product id, get current user email
+    # message is a price and id
+    # use product id and price to change database
+    if "email" in session:
+        email = session['email']
+        data = db.get_one_user(email)
+        username = data['name']
+        print(f'current user email would be {email}')
+        print(f'the user name would be {username}')
+        price_dict = json.loads(msg)
+        price = price_dict['price']
+        product_id = price_dict['product_id']
+        print(f'price is {price} and product_id is {product_id}')
+        print(f'user {email} offer price {price}')
     send(msg, broadcast=True)
 
 
@@ -42,6 +65,10 @@ def main_page():
         return render_template('main_page.html', username=username)
     return render_template('main_page.html')
 
+
+# @app.route('/hey', methods=['GET'])
+# def page():
+#     return render_template('main_page.html')
 
 # @app.route('/websocket', methods=['GET', 'POST'])
 # def pr():
@@ -77,5 +104,3 @@ if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=8000, debug=True)
     # socketio.run(app, port=8000)
     socketio.run(app, host='0.0.0.0', port=8000, debug=True)
-
-
