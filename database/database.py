@@ -43,6 +43,9 @@ order_id_collection = db["order_id"]
 shopping_cart_collection = db["shopping_cart"]
 shopping_cart_id_collection = db["shopping_cart_id"]
 
+# auction_items(user_email, product_id)
+auction_items_collection = db["auction_items"]
+
 
 # ------------ user_collection methods --------------------
 # User_accounts(
@@ -452,6 +455,36 @@ def get_all_shopping_cart():
 
 
 # ------------ shopping_cart_collection methods end --------------------
+
+# ------------ auction_items_collection methods --------------------
+
+
+# auction_items(user_email, product_id)
+def create_auction_item(user_email, product_id):
+    auction_item_dict = {
+        "user_email": user_email,
+        "product_id": product_id
+    }
+    auction_items_collection.insert_one(auction_item_dict)
+    return get_one_auction_item(user_email=user_email)
+
+# def update_auction_item(new_user_email,
+#                         product_id,
+#                         new_price: float):
+#     item = get_one_auction_item(product_id=product_id)
+#     old_product_price =
+#     if item
+#     auction_items_collection.update_one({{"product_id": product_id},
+#                                          {"$set": {"user_email": new_user_email}}})
+
+
+def get_one_auction_item(user_email: str = None, product_id: int = None):
+    if product_id is not None:
+        return auction_items_collection.find_one({"product_id": product_id})
+    if user_email is not None:
+        return auction_items_collection.find_one({"user_email": user_email})
+
+# ------------ auction_items_collection methods end --------------------
 
 # ------------ Private method --------------------
 def __get_next_user_id():
