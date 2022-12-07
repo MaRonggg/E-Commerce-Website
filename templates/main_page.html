@@ -12,7 +12,38 @@ onload="getAllOnSaleProducts();"
     <h1>Welcome to Shop {{username}}</h1>
 {% endblock %}
 
+{% if hide==False %}
+    <li>
+      <a href="/register">register a new account </a>
+    </li>
+
+    <li>
+      <a href="/login">login a account</a>
+    </li>
+
+{% else %}
+      <li>
+      <a href="/logout">logout current account</a>
+      </li>
+
+{% endif %}
+
 {% block body %}
+    {% if hide==False %}
+    <li>
+      <a href="/register">register a new account </a>
+    </li>
+
+    <li>
+      <a href="/login">login a account</a>
+    </li>
+
+{% else %}
+      <li>
+      <a href="/logout">logout current account</a>
+      </li>
+
+{% endif %}
     <div id="products"></div>
 
     <script src="/script/main.js"></script>
