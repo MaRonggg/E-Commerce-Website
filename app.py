@@ -19,7 +19,7 @@ app.register_blueprint(cart_bp)
 app.register_blueprint(reg)
 app.register_blueprint(login)
 # app.secret_key = "aisjdioajdiowqjiodjasiojdioqw"
-
+app.permanent_session_lifetime = datetime.timedelta(minutes=30)
 # app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
 socketio = SocketIO(app, cors_allowed_origins=['*',
