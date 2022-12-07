@@ -10,6 +10,11 @@
       {% endfor %}
    {% endif %}
 {% endwith %}
+    <ul>
+    <li>
+      <a href="/register">register a new account </a>
+    </li>
+    </ul>
 {#    login form    #}
 <form action="/login" id="login-form" method="post" enctype="multipart/form-data">
     <label for="email"><b>Email</b></label>
@@ -20,5 +25,6 @@
 
     <input type="submit" value="login">
 </form>
+
 
 {% endblock %}

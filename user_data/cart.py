@@ -10,7 +10,7 @@ cartbp = Blueprint('cart', __name__)
 
 @cartbp.route('/shopping_cart', methods=['GET'])
 def direct():
-    if "email" in session:
+    if session and "email" in session:
         return render_template('user_cart.html')
     else:
         return render_template('login.html')

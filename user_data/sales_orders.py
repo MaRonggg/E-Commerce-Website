@@ -6,21 +6,21 @@ bp = Blueprint('sales_orders', __name__)
 
 @bp.route('/sales_page', methods=['GET'])
 def sales_page():
-    if 'email' not in session:
+    if not session or 'email' not in session:
         return redirect(url_for('auth.login'))
     return render_template('sales.html')
 
 
 @bp.route('/orders_page', methods=['GET'])
 def orders_page():
-    if 'email' not in session:
+    if not session or 'email' not in session:
         return redirect(url_for('auth.login'))
     return render_template('orders.html')
 
 
 @bp.route('/get_sales', methods=['GET'])
 def get_sale():
-    if 'email' in session:
+    if session and 'email' in session:
         user_email = session['email']
 
         for_sale = []
@@ -43,7 +43,7 @@ def get_sale():
 
 @bp.route('/get_orders', methods=['GET'])
 def get_orders():
-    if 'email' in session:
+    if session and 'email' in session:
         user_email = session['email']
 
         products = []

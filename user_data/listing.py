@@ -10,14 +10,14 @@ bp = Blueprint('listing', __name__)
 
 @bp.route('/create_page', methods=['GET'])
 def create_listing_page():
-    if 'email' not in session:
+    if not session or 'email' not in session:
         return redirect(url_for('auth.login'))
     return render_template('create_listing.html')
 
 
 @bp.route('/create', methods=['POST'])
 def create_listing():
-    if 'email' in session:
+    if session and 'email' in session:
         user_email = session['email']
 
         name = html.escape(request.form.get('name'))
@@ -73,7 +73,7 @@ def info_page(product_id):
 
 @bp.route('/buy_now/<product_id>', methods=['GET'])
 def buy_now(product_id, buyer_email=None):
-    if 'email' not in session:
+    if not session or 'email' not in session:
         return 'Not Logged In'
 
     if buyer_email is None:
@@ -104,7 +104,7 @@ def buy_now(product_id, buyer_email=None):
 
 @bp.route('/auction_page/<product_id>', methods=['GET'])
 def auction_page(product_id):
-    if 'email' not in session:
+    if not session or 'email' not in session:
         return redirect(url_for('auth.login'))
     return render_template('auction_page.html', product_id=product_id)
 
