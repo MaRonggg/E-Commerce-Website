@@ -23,7 +23,10 @@ $(document).ready(function() {
 
         socket.on('message', function(data) {
 
-            if (data === ''){
+            if (data === 'expired'){
+                alterMessage_expired()
+            }
+            else if (data === 'invalid price'){
                 alterMessage()
             }
             else {
@@ -45,6 +48,10 @@ $(document).ready(function() {
 
 function alterMessage(){
     alert('Invalid bid. Enter price is lower than the current highest price. ')
+}
+
+function alterMessage_expired(){
+    alert('Product auction expired. No more offer!!! ')
 }
 
 // Allow users to send messages by pressing enter instead of clicking the Send button

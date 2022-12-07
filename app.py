@@ -40,7 +40,9 @@ def handleMessage(msg):
                                                product_id,
                                                product_price,
                                                datetime.datetime.now())
-        if update_result:
+        if update_result == 'ok':
+            print('handleMessage OK')
+
             product_name = db.get_one_product(product_id)['product_name']
             username = db.get_one_user(user_email)['name']
             # offer_message = f'{user_email} offered ${product_price} for {product_name}!'
@@ -48,9 +50,19 @@ def handleMessage(msg):
             # send(offer_message, broadcast=True)
             data = {'username': username, 'productName': product_name, 'price': product_price}
             send(data, broadcast=True)
-        else:
-            send('', broadcast=True)
-            # alterMessage()
+        elif update_result == 'invalid price':
+            print('handleMessage invalid price')
+            # check if the time expired, if it is
+            # show a different message to inform user
+
+            # also, add the order
+            # no broadcast, only seen by one user
+            send(update_result, broadcast=False)
+
+        elif update_result == 'expired':
+            print('handleMessage OK')
+            # no broadcast, only seen by one user
+            send(update_result, broadcast=False)
 
 
 
@@ -58,7 +70,7 @@ def handleMessage(msg):
 @app.route('/', methods=['GET'])
 def main_page():
     # 判断用户是否登录
-    if "email" in session:
+    if session and "email" in session:
         email = session['email']
         data = db.get_one_user(email)
         username = data['name']
