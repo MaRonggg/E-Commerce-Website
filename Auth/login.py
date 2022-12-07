@@ -35,7 +35,7 @@ def login():
                 app.permanent_session_lifetime = timedelta(minutes=15)
                 # show message
                 flash('Login success.')
-                return render_template("logined.html", email=email)
+                return render_template("main_page.html", username=email, hide=True)
     else:
         return render_template("login.html")
 
@@ -43,7 +43,7 @@ def login():
 def logout():
         if 'email' in session:
             session.pop('email', None)
-            return render_template('logout.html')
+            return render_template("main_page.html", hide=False)
         else:
             return '<p>user already logout</p>'
 

@@ -62,8 +62,8 @@ def main_page():
         email = session['email']
         data = db.get_one_user(email)
         username = data['name']
-        return render_template('main_page.html', username=username)
-    return render_template('main_page.html')
+        return render_template('main_page.html', username=username, hide=True)
+    return render_template('main_page.html', hide=False)
 
 
 # @app.route('/websocket', methods=['GET', 'POST'])
