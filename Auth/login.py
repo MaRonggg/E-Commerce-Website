@@ -31,21 +31,18 @@ def login():
             else:
                 session['email'] = email
                 # # add  5 minutes time for session to expire
-                session.permanent = True
-                app.permanent_session_lifetime = timedelta(minutes=15)
                 # show message
                 flash('Login success.')
                 return render_template("main_page.html", username=email, hide=True)
     else:
         return render_template("login.html")
 
-@auth.route("/logout", methods=['GET', 'POST'])
+@auth.route("/logout", methods=['GET'])
 def logout():
-        if 'email' in session:
-            session.pop('email', None)
-            return render_template("main_page.html", hide=False)
-        else:
-            return '<p>user already logout</p>'
+    if 'email' in session:
+        session.clear()
+        return render_template("main_page.html", hide=False)
+
 
 
 
