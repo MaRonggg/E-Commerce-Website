@@ -8,6 +8,9 @@ from bcrypt import checkpw, gensalt, hashpw
 from datetime import timedelta
 from flask import session, app
 
+# escape characters
+from Auth.html_injection_replace import escape_html_chars
+
 
 auth = flask.Blueprint("auth", __name__)
 salt = gensalt()
@@ -16,7 +19,10 @@ salt = gensalt()
 def login():
     if request.method == 'POST':
         email = request.form.get("email")
+        email = escape_html_chars(email)
         password = request.form.get("psw")
+        password = escape_html_chars(password)
+
         if not email or not password:
             flash('Invalid input.')
             return redirect(url_for('auth.login'))
