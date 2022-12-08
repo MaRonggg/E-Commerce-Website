@@ -36,6 +36,7 @@ def reg():
             name = escape_html_chars(name)
             if database.user_collection.find_one({"email": email}):
                 return redirect(url_for('register.reg'))
+
             database.create_user_account(email, password, name)
             return redirect(url_for('auth.login'))
         else:
