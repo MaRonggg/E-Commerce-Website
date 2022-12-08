@@ -60,10 +60,29 @@ def get_all_on_sale_products():
             current_time = datetime.datetime.now()
             auction_end_time = product['auction_end_time']
             if auction_end_time and auction_end_time > current_time:
+                # auction item, time not expired
                 products.append(product)
+            elif auction_end_time and auction_end_time <= current_time:
+
+                # error
+                # highest_bidder_email = db.get_one_auction_item(product_id)['user_email']
+                # 'NoneType' object is not subscriptable
+
+                # print('expired item added, go check my orders')
+                # # get the user_email of highest bidder
+                # highest_bidder_email = db.get_one_auction_item(product_id)['user_email']
+                # highest_bidder_price = db.get_one_auction_item(product_id)['product_id']
+                # print(f'highest bidder would be {highest_bidder_email}')
+                # print(f'price would be {highest_bidder_price}')
+                # # add that into my order
+                #
+                # res = db.add_product_to_order(product_id, highest_bidder_email)
+                # print(res)
+                pass
             elif not auction_end_time:
                 # item is not on auction, show it anyway
                 products.append(product)
+
     return products
 
 
