@@ -6,8 +6,10 @@ import bcrypt
 
 # works for local
 # mongo_client = MongoClient('mongodb://localhost:27017')
+
 # works for docker
 mongo_client = MongoClient("mongo")
+
 db = mongo_client['5bytes']
 
 # User_accounts(
@@ -477,14 +479,39 @@ def update_auction_item(new_user_email,
                         current_time: datetime):
     old_product_price = get_one_product(product_id)["product_price"]
     auction_end_time = get_one_product(product_id)["auction_end_time"]
-    print('tttttttttt',auction_end_time, type(auction_end_time))
+
+    print(f'current time is {current_time}, and type is {type(current_time)}')
+    print('auction end time is',auction_end_time, type(auction_end_time))
+    if current_time >= auction_end_time:
+        print('current time is bigger or equal to aucton time')
+        print(True)
+
     if old_product_price < new_price and current_time < auction_end_time:
         auction_items_collection.update_one({"product_id": product_id},
                                             {"$set": {"user_email": new_user_email}})
         update_product_price(product_id=product_id, product_price=new_price)
-        return True
-    else:
-        return False
+        return 'ok'
+
+    elif current_time >= auction_end_time:
+        # I need to know current highest order's email
+        # store the item to 'my_order'
+        # return message 'expired'
+        # the app.py will catch the message and use javascript to notify user
+        # ' this auction has expired, any offer will be valid'
+        return 'expired'
+
+    elif old_product_price >= new_price and current_time < auction_end_time:
+        # time is ok
+        # but the price too low
+        # return message 'low price'
+
+        # app.py will catch the message and show javascript
+
+        return 'invalid price'
+    #
+    # else:
+    #     print('')
+    #     return False
 
 
 def delete_one_auction_item(product_id: int):
