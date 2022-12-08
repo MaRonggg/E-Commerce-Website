@@ -22,7 +22,7 @@ function getSales() {
                      '<td><img src="/' + product['product_image'] + '" width="300" height="300"></td>' +
                      '<td>Name: ' + product['product_name'] + '<br>' +
                      'Description: ' + product['product_description'] + '<br>' +
-                     'Auction Deadline: ' + product['auction_end_time'].replace('T', ' ') + '</td>' +
+                     'Auction Deadline: ' + product['auction_end_time'] + '</td>' +
                      '</tr>' +
                      '</table>';
              }
@@ -46,7 +46,7 @@ function getSales() {
                     '<td>Name: ' + product['product_name'] + '<br>' +
                     'Description: ' + product['product_description'] + '<br>' +
                     'Price: ' + parseFloat(product['product_price']).toFixed(2) + '<br>' +
-                    'Auction Deadline: ' + product['auction_end_time'].replace('T', ' ') + '</td>' +
+                    'Auction Deadline: ' + product['auction_end_time'] + '</td>' +
                     '</tr>' +
                     '</table>';
             }

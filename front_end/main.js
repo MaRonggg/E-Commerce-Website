@@ -9,7 +9,7 @@ function getAllOnSaleProducts() {
                 productsDisplay.innerHTML += '<button onclick="toInfoPage(' + product['_id'] + ');"><img src="/' + product['product_image'] + '" width="300" height="300">' + info + '</button>';
             } else {
                 const info = '<br/>' + 'Product: ' + product['product_name'] + '<br/>' +
-                'Auction Deadline: ' + product['auction_end_time'].replace('T', ' ') + '<br/>';
+                'Auction Deadline: ' + product['auction_end_time'] + '<br/>';
 
                 productsDisplay.innerHTML += '<button onclick="toInfoPage(' + product['_id'] + ');"><img src="/' + product['product_image'] + '" width="300" height="300">' + info + '</button>';
             }
