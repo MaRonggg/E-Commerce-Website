@@ -56,7 +56,14 @@ def get_all_on_sale_products():
     for piece in data:
         for product_id in piece['on_sale_products']:
             product = db.get_one_product(product_id)
-            products.append(product)
+            # check product auction end time
+            current_time = datetime.datetime.now()
+            auction_end_time = product['auction_end_time']
+            if auction_end_time and auction_end_time > current_time:
+                products.append(product)
+            elif not auction_end_time:
+                # item is not on auction, show it anyway
+                products.append(product)
     return products
 
 
