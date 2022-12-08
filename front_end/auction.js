@@ -100,9 +100,9 @@ function checkPrice() {
 function auctionPage(product_id) {
     this.product_id = product_id;
     $.get('/get_one_product/' + product_id, function (product) {
-        const currHighestBid = product['product_price'] != -1 ? parseFloat(product['product_price']).toFixed(2) : 'Currently No Bids';
+        const currHighestBid = product['product_price'] != -1 ? '$' + parseFloat(product['product_price']).toFixed(2) : 'Currently No Bids';
         const highestBidDisplay = document.getElementById('highestBid');
-        highestBidDisplay.innerHTML = 'Highest Bid: $' + currHighestBid;
+        highestBidDisplay.innerHTML = 'Highest Bid: ' + currHighestBid;
 
         const infoDisplay = document.getElementById('info');
         infoDisplay.innerHTML =
