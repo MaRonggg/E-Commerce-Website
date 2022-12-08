@@ -51,7 +51,8 @@ function alterMessage(){
 }
 
 function alterMessage_expired(){
-    alert('Product auction expired. No more offer!!! ')
+    alert('Product auction expired. No more offer!!!\n' +
+        'Please go back to main page!')
 }
 
 // Allow users to send messages by pressing enter instead of clicking the Send button

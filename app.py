@@ -9,6 +9,7 @@ from Auth.register_account import register as reg
 from Auth.login import auth as login
 import database.database as db
 
+
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, send
 
@@ -30,7 +31,7 @@ socketio = SocketIO(app, cors_allowed_origins=['*',
 # enable message show on webpage
 @socketio.on('message')
 def handleMessage(msg):
-    if "email" in session:
+    if session and ("email" in session):
         user_email = session['email']
         product_price = float(json.loads(msg)['price'])
         product_id = int(json.loads(msg)['product_id'])
@@ -58,7 +59,6 @@ def handleMessage(msg):
             # also, add the order
             # no broadcast, only seen by one user
             send(update_result, broadcast=False)
-
         elif update_result == 'expired':
             print('handleMessage OK')
             # no broadcast, only seen by one user
