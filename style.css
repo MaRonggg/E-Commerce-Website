@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+/* header styles */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 15px;
+}
+
+/* nav styles */
+#nav {
+  background-color: #ccc;
+}
+#nav ul {
+  display: flex;
+  list-style: none;
+}
+#nav li {
+  flex: 1;
+  text-align: center;
+}
+#nav a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+}
+#nav a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+p {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+main {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+form {
+  margin: 20px 0;
+}
+
+label {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  border: 1px solid #333;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+}
+
+/* Login page */
+main h2 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Registration page */
+main h2 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+main p a {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Registration page */
+main p a {
+  color: #333;
+  font-weight: bold;
+}
+/*#password-strength-meter {*/
+/*  width: 300px;*/
+/*  height: 30px;*/
+/*  border: 1px solid #ccc;*/
+/*  margin-top: 10px;*/
+/*  margin-bottom: 10px;*/
+/*  position: relative;*/
+/*}*/
+
+/*#password-strength-text {*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  left: 50%;*/
+/*  transform: translate(-50%, -50%);*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*#password-strength-meter.weak {*/
+/*  background-color: #FFB0B0;*/
+/*}*/
+
+/*#password-strength-meter.medium {*/
+/*  background-color: #FFD6B3;*/
+/*}*/
+
+/*#password-strength-meter.strong {*/
+/*  background-color: #A8FFA8;*/
+/*}*/
+
+#strength-meter {
+    width: 100%;
+    height: 5px;
+    background-color: #ccc;
+    margin: 10px 0;
+  }
+
+  #strength-meter-fill {
+    height: 100%;
+  }
