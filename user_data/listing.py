@@ -59,7 +59,9 @@ def get_all_on_sale_products():
             # check product auction end time
             current_time = datetime.datetime.now()
             auction_end_time = product['auction_end_time']
-            if auction_end_time and auction_end_time > current_time:
+            if not auction_end_time:
+                products.append(product)
+            elif auction_end_time and auction_end_time > current_time:
                 # auction item, time not expired
                 products.append(product)
             elif auction_end_time and auction_end_time <= current_time:
@@ -84,11 +86,6 @@ def get_all_on_sale_products():
                 if highest_bidder_email != '':
                     #print(f'current email would be {highest_bidder_email}')
                     buy_now(product_id= product_id, buyer_email= highest_bidder_email)
-
-            elif not auction_end_time:
-                # item is not on auction, show it anyway
-                products.append(product)
-
     return products
 
 
