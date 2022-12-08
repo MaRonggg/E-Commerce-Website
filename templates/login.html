@@ -48,13 +48,6 @@
                 return false;
             }
 
-            // Check if the email is a valid email address
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if (!re.test(String(emailInput.value).toLowerCase())) {
-                alert("Please enter a valid email address.");
-                return false;
-            }
-
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/login", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

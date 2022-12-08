@@ -29,20 +29,17 @@ def reg():
         email = escape_html_chars(email)
         pas1 = escape_html_chars(pas1)
         pas2 = escape_html_chars(pas2)
-        # compare password
-        if pas2 != pas1:
-            # message did not appear
-            return jsonify({"success": False, "error": "Passwords do not match"})
-        password = bcrypt.hashpw(pas1.encode('utf-8'), salt)
-        name = request.form.get("name")
-        name = escape_html_chars(name)
-        user = database.user_collection.find_one({"email": email})
-        if user:
-            # If the user already exists, return an error message
-            return jsonify({"success": False, "error": "Email already in use"})
-        database.create_user_account(email, password, name)
-
-        return redirect(url_for('auth.login'))
+        if pas2 == pas1:
+            # compare password
+            password = bcrypt.hashpw(pas1.encode('utf-8'), salt)
+            name = request.form.get("name")
+            name = escape_html_chars(name)
+            if database.user_collection.find_one({"email": email}):
+                return redirect(url_for('register.reg'))
+            database.create_user_account(email, password, name)
+            return redirect(url_for('auth.login'))
+        else:
+            return redirect(url_for('register.reg'))
 
 
 

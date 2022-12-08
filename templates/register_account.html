@@ -11,22 +11,126 @@
         Join Us
     </h2>
 {#    register form    #}
-<form action="/register" method="post">
+<form action="/register" id="register-form" method="post" enctype="multipart/form-data">
     <label for="email"><b>Email</b></label>
     <input type="text" placeholder="Enter Your Email" name="email" required>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <input type="password" placeholder="Enter Password (8 or more characters)" name="psw" required>
 
     <label for="psw2"><b>Confirm Password</b></label>
-    <input type="password" placeholder="Confirm Password" name="psw2" required>
+    <input type="password" placeholder="Confirm Your Password" name="psw2" required>
 
     <label for="name"><b>name</b></label>
     <input type="name" placeholder="Enter Your name" name="name" required>
-    <input type="submit" value="registration">
+
+    <div id="strength-meter">
+    <div id="strength-meter-fill"></div>
+    </div>
+
+    <input type="submit" value="registration" >
 </form>
 <p>
     Already have an account? <a href="/login">Log in</a>
 </p>
 </main>
+{#    <script>#}
+        {#var passwordInput = document.getElementsByName('psw');#}
+        {#var strengthMeter = document.getElementById('strength-meter');#}
+        {#var strengthMeterFill = document.getElementById('strength-meter-fill');#}
+        {#passwordInput.addEventListener('input', function() {#}
+        {#    var password = passwordInput.value;#}
+        {#    var strength = calculatePasswordStrength(password);#}
+        {#    if (strength < 30) {#}
+        {#        strengthMeterFill.style.backgroundColor = 'red';#}
+        {#    } else if (strength < 60) {#}
+        {#        strengthMeterFill.style.backgroundColor = 'yellow';#}
+        {#    } else {#}
+        {#        strengthMeterFill.style.backgroundColor = 'green';#}
+        {#    }#}
+{##}
+{##}
+{#    function validateForm(event) {#}
+{##}
+{#        // Get the form element#}
+{#        var form = document.getElementById("register-form");#}
+{##}
+{#        // Get the email, password, and confirm password input fields#}
+{#        var emailInput = form.elements["email"];#}
+{#        var passwordInput = form.elements["psw"];#}
+{#        var confirmPasswordInput = form.elements["psw2"];#}
+{#        var nameInput = form.elements["name"]#}
+{#        var hasErrors = false;#}
+{##}
+{#        // Check if any of the input fields are empty#}
+{#        if (!emailInput.value || !passwordInput.value || !confirmPasswordInput.value || !nameInput.value) {#}
+{#            alert("Please fill in all the fields.");#}
+{#            hasErrors = true;#}
+{#        }#}
+{##}
+{#        // Check if the email is a valid email address#}
+{#        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;#}
+{#        if (!re.test(String(emailInput.value).toLowerCase())) {#}
+{#            alert("Please enter a valid email address.");#}
+{#            hasErrors = true;#}
+{#        }#}
+{##}
+{#        // Check if the password and confirm password fields match#}
+{#        if (passwordInput !== confirmPasswordInput) {#}
+{#            alert("Password must be same");#}
+{#            hasErrors = true;#}
+{#        }#}
+        {#    var xhr = new XMLHttpRequest();#}
+        {#        xhr.open("POST", "/register", true);#}
+        {#        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");#}
+        {#        xhr.onreadystatechange = function() {#}
+        {#        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {#}
+        {#        // Parse the server's response#}
+        {#        var response = JSON.parse(this.responseText);#}
+        {#        if (response.success) {#}
+        {#            // If the login was successful, submit the form#}
+        {#            form.submit();#}
+        {#            window.location.href = "/login"#}
+        {#        } else {#}
+        {#            // If the login was not successful, display an error message#}
+        {#            alert(response.error);#}
+        {#            window.location.href = "/register";#}
+        {#        }#}
+        {#    }#}
+{##}
+        {#        xhr.send("email=" + encodeURIComponent(emailInput.value) + "&psw=" + encodeURIComponent(passwordInput.value));#}
+{#        if (!hasErrors) {#}
+{#            form.submit();#}
+{#        }#}
+{#        else{#}
+{#            window.location.href = "/register";#}
+{#        }#}
+{#    }#}
+{#    function calculatePasswordStrength(password) {#}
+{#  // Calculate the password length#}
+{#  var length = password.length;#}
+{##}
+{#  // Check if the password contains lowercase letters#}
+{#  var lowercase = /[a-z]/.test(password);#}
+{##}
+{#  // Check if the password contains uppercase letters#}
+{#  var uppercase = /[A-Z]/.test(password);#}
+{##}
+{#  // Check if the password contains numbers#}
+{#  var number = /[0-9]/.test(password);#}
+{##}
+{#  // Check if the password contains special characters#}
+{#  var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);#}
+{##}
+{#  // Calculate the password strength#}
+{#  var strength = 0;#}
+{#  if (length >= 8) strength += 25;#}
+{#  if (lowercase) strength += 25;#}
+{#  if (uppercase) strength += 25;#}
+{#  if (number) strength += 25;#}
+{#  if (special) strength += 25;#}
+{##}
+{#  return strength;#}
+{##}
+{#    </script>#}
 {% endblock %}
