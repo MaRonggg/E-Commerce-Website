@@ -2,10 +2,10 @@ import datetime
 import html
 from pathlib import Path
 
-from flask import Blueprint, request, render_template, session, redirect, url_for
+from flask import Blue#print, request, render_template, session, redirect, url_for
 import database.database as db
 
-bp = Blueprint('listing', __name__)
+bp = Blue#print('listing', __name__)
 
 
 @bp.route('/create_page', methods=['GET'])
@@ -30,15 +30,15 @@ def create_listing():
             product_id = db.create_product(product_name=name, product_price=price, product_description=description)
         else:
             auction_deadline = request.form.get('auction_deadline')
-            # print(auction_deadline)
-            # print(datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M'))
-            # print(type(auction_deadline))
+            # #print(auction_deadline)
+            # #print(datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M'))
+            # #print(type(auction_deadline))
             # convert auction_deadline string to datetime.datetime
             auction_deadline_datetime = datetime.datetime.strptime(auction_deadline,'%Y-%m-%dT%H:%M')
             product_id = db.create_product(product_name=name, product_price=-1,
                                            product_description=description,
                                            auction_end_time=auction_deadline_datetime)
-
+            db.create_auction_item(user_email='', product_id= product_id)
         image = request.files.get('image')
         image_path = Path(__file__).parent.parent / ('images/image' + str(product_id) + '.jpg')
         image.save(image_path)
@@ -64,27 +64,26 @@ def get_all_on_sale_products():
                 products.append(product)
             elif auction_end_time and auction_end_time <= current_time:
 
-                print(f'auction_end_time is {auction_end_time}')
-                print(f'current time is {current_time}')
-                print('product id would be')
-                print(product_id)
+                #print(f'auction_end_time is {auction_end_time}')
+                #print(f'current time is {current_time}')
+                #print('product id would be')
+                #print(product_id)
 
                 # error
                 # highest_bidder_email = db.get_one_auction_item(product_id)['user_email']
                 # 'NoneType' object is not subscriptable
 
-                #
-
-                print('expired item added, go check my orders')
+                #print('expired item added, go check my orders')
                 # get the user_email of highest bidder
                 highest_bidder_email = db.get_one_auction_item(product_id)['user_email']
                 highest_bidder_price = db.get_one_auction_item(product_id)['product_id']
-                print(f'highest bidder would be {highest_bidder_email}')
-                print(f'price would be {highest_bidder_price}')
+                #print(f'highest bidder would be {highest_bidder_email}')
+                #print(f'price would be {highest_bidder_price}')
                 # add that into my order
-
-                res = db.add_product_to_order(product_id, highest_bidder_email)
-                print(res)
+                # if someone buy the product
+                if highest_bidder_email != '':
+                    #print(f'current email would be {highest_bidder_email}')
+                    buy_now(product_id= product_id, buyer_email= highest_bidder_email)
 
             elif not auction_end_time:
                 # item is not on auction, show it anyway
