@@ -4,20 +4,21 @@
     Register System
 {% endblock %}
 
+{% block login_register %}
+    <li>
+      <a href="/login">login a account</a>
+    </li>
+{% endblock %}
+
 {% block body %}
 {#    # add for display flash() message#}
 {% with messages = get_flashed_messages() %}
    {% if messages %}
       {% for message in messages %}
-         <h1>{{ message }}</h1>
+         <p>{{ message }}</p>
       {% endfor %}
    {% endif %}
 {% endwith %}
-    <ul>
-        <li>
-      <a href="/login">login a account</a>
-    </li>
-    </ul>
 
 {#    register form    #}
 <form action="/register" method="post">

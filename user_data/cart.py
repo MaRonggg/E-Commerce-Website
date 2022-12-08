@@ -4,6 +4,7 @@ from database.database import get_one_user, get_one_shopping_cart,create_shoppin
 from flask import render_template, session
 import database.database as db
 
+
 cartbp = Blueprint('cart', __name__)
 
 

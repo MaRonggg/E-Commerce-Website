@@ -11,11 +11,10 @@ onload="getAllOnSaleProducts();"
 {% block head %}
     <h1>Welcome to Shop {{username}}</h1>
 {% endblock %}
+{% block login_register %}
 
+{% if hide==False %}
 
-{% block body %}
-    {% if hide==False %}
-    <ul>
     <li>
       <a href="/register">register a new account </a>
     </li>
@@ -23,19 +22,21 @@ onload="getAllOnSaleProducts();"
     <li>
       <a href="/login">login a account</a>
     </li>
-    </ul>
 
 {% else %}
-        <ul>
+
       <li>
       <a href="/logout">logout current account</a>
       </li>
-        </ul>
 
 {% endif %}
     <div id="products"></div>
+{% endblock %}
+
+{% block body %}
 
     <script src="/script/main.js"></script>
+
 {% endblock %}
 
 

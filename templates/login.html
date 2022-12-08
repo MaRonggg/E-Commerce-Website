@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Login System{% endblock %}
 <!-- add form for login -->
+
+{% block login_register %}
+    <li>
+      <a href="/register">register a new account </a>
+    </li>
+{% endblock %}
+
 {% block body %}
     {#    # add for display flash() message#}
 {% with messages = get_flashed_messages() %}
@@ -10,11 +17,7 @@
       {% endfor %}
    {% endif %}
 {% endwith %}
-    <ul>
-    <li>
-      <a href="/register">register a new account </a>
-    </li>
-    </ul>
+
 {#    login form    #}
 <form action="/login" id="login-form" method="post" enctype="multipart/form-data">
     <label for="email"><b>Email</b></label>
