@@ -27,7 +27,7 @@ $(document).ready(function() {
                 alterMessage_expired()
             }
             else if (data === 'invalid price'){
-                alterMessage()
+                alterMessageInvalidBid()
             }
             else {
                 const highestBidDisplay = document.getElementById('highestBid');
@@ -46,7 +46,7 @@ $(document).ready(function() {
 
     });
 
-function alterMessage(){
+function alterMessageInvalidBid(){
     alert('Invalid bid. Enter price is lower than the current highest price. ')
 }
 
