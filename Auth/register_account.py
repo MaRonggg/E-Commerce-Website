@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash
+from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify
 import bcrypt
 from database import database
 
@@ -32,17 +32,16 @@ def reg():
         # compare password
         if pas2 != pas1:
             # message did not appear
-            flash('Passwords should be same!')
-            return redirect(url_for('register.reg'))
+            return jsonify({"success": False, "error": "Passwords do not match"})
         password = bcrypt.hashpw(pas1.encode('utf-8'), salt)
         name = request.form.get("name")
         name = escape_html_chars(name)
-
-        print(f'reg_info being called')
-        print(request)
-        print(f'username would be {name}')
-        print(f'password would be {password}')
+        user = database.user_collection.find_one({"email": email})
+        if user:
+            # If the user already exists, return an error message
+            return jsonify({"success": False, "error": "Email already in use"})
         database.create_user_account(email, password, name)
+
         return redirect(url_for('auth.login'))
 
 

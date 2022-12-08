@@ -1,7 +1,7 @@
 import datetime
 import json
 from pathlib import Path
-from flask import request
+from flask import request, Response
 from user_data.listing import bp as listing_bp
 from user_data.sales_orders import bp as sales_orders_bp
 from user_data.cart import cartbp as cart_bp
@@ -19,7 +19,7 @@ app.register_blueprint(cart_bp)
 app.register_blueprint(reg)
 app.register_blueprint(login)
 # app.secret_key = "aisjdioajdiowqjiodjasiojdioqw"
-app.permanent_session_lifetime = datetime.timedelta(minutes=30)
+
 # app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
 socketio = SocketIO(app, cors_allowed_origins=['*',
@@ -65,8 +65,6 @@ def handleMessage(msg):
             send(update_result, broadcast=False)
 
 
-
-
 @app.route('/', methods=['GET'])
 def main_page():
     # 判断用户是否登录
@@ -96,16 +94,17 @@ def send_js1():
         return js.read()
 
 
-# added path for login
-# hey
-# modify
-#
-
-
 @app.route('/image<image_id>', methods=['GET'])
 def send_image(image_id):
     with open(Path(__file__).parent / ('images/image' + image_id + '.jpg'), 'rb') as image:
         return image.read()
+
+
+@app.route('/style.css', methods=['GET'])
+def css():
+    with open(f'style.css', 'r') as f:
+        css_file = f.read()
+    return Response(css_file, mimetype='text/css')
 
 
 if __name__ == '__main__':

@@ -4,22 +4,12 @@
     Register System
 {% endblock %}
 
-{% block login_register %}
-    <li>
-      <a href="/login">login a account</a>
-    </li>
-{% endblock %}
 
 {% block body %}
-{#    # add for display flash() message#}
-{% with messages = get_flashed_messages() %}
-   {% if messages %}
-      {% for message in messages %}
-         <p>{{ message }}</p>
-      {% endfor %}
-   {% endif %}
-{% endwith %}
-
+<main>
+    <h2>
+        Join Us
+    </h2>
 {#    register form    #}
 <form action="/register" method="post">
     <label for="email"><b>Email</b></label>
@@ -28,12 +18,15 @@
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
 
-    <label for="psw2"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw2" required>
+    <label for="psw2"><b>Confirm Password</b></label>
+    <input type="password" placeholder="Confirm Password" name="psw2" required>
 
     <label for="name"><b>name</b></label>
     <input type="name" placeholder="Enter Your name" name="name" required>
     <input type="submit" value="registration">
 </form>
-
+<p>
+    Already have an account? <a href="/login">Log in</a>
+</p>
+</main>
 {% endblock %}

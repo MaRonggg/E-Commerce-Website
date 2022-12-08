@@ -1,5 +1,7 @@
+import datetime
+
 import flask
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, jsonify
 from flask import request
 from flask import session
 from database import database
@@ -22,26 +24,23 @@ def login():
         email = escape_html_chars(email)
         password = request.form.get("psw")
         password = escape_html_chars(password)
-
-        if not email or not password:
-            flash('Invalid input.')
-            return redirect(url_for('auth.login'))
         user = database.user_collection.find_one({"email": email})
         if not user:
-            flash('Email not Found.')
-            return redirect(url_for('auth.login'))
+            return jsonify({"success": False, "error": "Email not found"})
         else:
             if not checkpw(password.encode('utf-8'), user.get("password")):
-                flash('Incorrect password.')
-                return redirect(url_for('auth.login'))
+                return jsonify({"success": False, "error": "Incorrect password"})
             else:
                 session['email'] = email
-                # # add  5 minutes time for session to expire
-                # show message
-                flash('Login success.')
+                if 'remember_me' in request.form:
+                    # Set the session to expire in 7 days
+                    session.permanent = True
+                else:
+                    app.permanent_session_lifetime = datetime.timedelta(minutes=15)
                 return render_template("main_page.html", username=email, hide=True)
     else:
         return render_template("login.html")
+
 
 @auth.route("/logout", methods=['GET'])
 def logout():

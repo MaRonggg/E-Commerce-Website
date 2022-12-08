@@ -9,15 +9,14 @@ onload="getAllOnSaleProducts();"
 {% endblock %}
 
 {% block head %}
-    <h1>Welcome to Shop {{username}}</h1>
+    <header><h1>Welcome to Shop {{username}}</h1>
+    </header>
+
+
 {% endblock %}
 {% block login_register %}
 
 {% if hide==False %}
-
-    <li>
-      <a href="/register">register a new account </a>
-    </li>
 
     <li>
       <a href="/login">login a account</a>
