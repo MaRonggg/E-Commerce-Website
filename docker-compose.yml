@@ -5,6 +5,7 @@ services:
   app:
     build: .
     environment:
+      TZ: America/New_York
       WAIT_HOSTS: mongo:27017
     ports:
       - '8080:8000'

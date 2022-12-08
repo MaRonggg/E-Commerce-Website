@@ -9,6 +9,7 @@ from Auth.register_account import register as reg
 from Auth.login import auth as login
 import database.database as db
 
+
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, send
 
@@ -58,7 +59,6 @@ def handleMessage(msg):
             # also, add the order
             # no broadcast, only seen by one user
             send(update_result, broadcast=False)
-
         elif update_result == 'expired':
             print('handleMessage OK')
             # no broadcast, only seen by one user
