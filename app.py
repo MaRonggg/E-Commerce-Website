@@ -28,8 +28,8 @@ socketio = SocketIO(app, cors_allowed_origins=['*',
                                                'http://localhost:8080',
                                                'https://localhost',
                                                'https://www.5bytes.org',                                               
-                                               'https://165.22.4.4:8080',
-                                               'https://165.22.4.4:8000',
+                                               'https://147.182.180.28:8080',
+                                               'https://147.182.180.28:8000',
                                                'http://www.5bytes.org'])
 # enable message show on webpage
 @socketio.on('message')
