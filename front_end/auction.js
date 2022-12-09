@@ -5,6 +5,7 @@
 // <script src="/socket.io/socket.io.js"></script>
 
 const socket = io(location.origin, { transports: ["websocket"] });
+console.log('origin: ' + location.origin);
 // const socket = io("http://localhost:8080/auction_page/product_id=${pid}", { transports: ["websocket"] });
 
 // var socket = io({transports: ['websocket']}).connect('http://127.0.0.1:/websocket');
