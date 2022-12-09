@@ -37,7 +37,7 @@ def login():
                     session.permanent = True
                 else:
                     app.permanent_session_lifetime = datetime.timedelta(minutes=15)
-                return render_template("main_page.html", username=email, hide=True)
+                return redirect(url_for('app.main_page'))
     else:
         return render_template("login.html")
 
