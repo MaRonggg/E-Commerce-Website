@@ -105,7 +105,7 @@ def send_image(image_id):
 
 @app.route('/style.css', methods=['GET'])
 def css():
-    with open(f'style.css', 'r') as f:
+    with open(Path(__file__).parent / 'style.css', 'r') as f:
         css_file = f.read()
     return Response(css_file, mimetype='text/css')
 
