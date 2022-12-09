@@ -25,7 +25,11 @@ app.register_blueprint(login)
 app.config['SECRET_KEY'] = 'mysecret'
 socketio = SocketIO(app, cors_allowed_origins=['*',
                                                'http://localhost:8000',
-                                               'http://localhost:8080'])
+                                               'http://localhost:8080',
+                                               'https://localhost',
+                                               'https://165.22.4.4',
+                                               'https://165.22.4.4:8080',
+                                               'https://165.22.4.4:8000'])
 
 
 # enable message show on webpage
