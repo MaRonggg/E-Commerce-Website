@@ -7,6 +7,6 @@ xwu46
 kxu25
 zchen65
 
- Our website:
+ Online deployment:
  http://www.5bytes.org/
 
