@@ -1,4 +1,5 @@
 import datetime
+import html
 import json
 from pathlib import Path
 from flask import request, Response
@@ -52,7 +53,7 @@ def handleMessage(msg):
             # offer_message = f'{user_email} offered ${product_price} for {product_name}!'
             # print(offer_message)
             # send(offer_message, broadcast=True)
-            data = {'username': username, 'productName': product_name, 'price': product_price}
+            data = {'username': html.escape(username), 'productName': product_name, 'price': product_price}
             send(data, broadcast=True)
         elif update_result == 'invalid price':
             print('handleMessage invalid price')

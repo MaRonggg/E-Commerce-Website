@@ -33,7 +33,7 @@ def reg():
             # compare password
             password = bcrypt.hashpw(pas1.encode('utf-8'), salt)
             name = request.form.get("name")
-            name = escape_html_chars(name)
+            # name = escape_html_chars(name)
             if database.user_collection.find_one({"email": email}):
                 return redirect(url_for('register.reg'))
 
