@@ -53,7 +53,8 @@ def handleMessage(msg):
             # offer_message = f'{user_email} offered ${product_price} for {product_name}!'
             # print(offer_message)
             # send(offer_message, broadcast=True)
-            data = {'username': html.escape(username), 'productName': product_name, 'price': product_price}
+            data = {'username': html.escape(username), 'productName': product_name,
+                    'price': product_price, 'productId': product_id}
             send(data, broadcast=True)
         elif update_result == 'invalid price':
             print('handleMessage invalid price')

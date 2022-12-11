@@ -12,7 +12,9 @@ console.log('origin: ' + location.origin);
 
 const product_id = null;
 
-$(document).ready(function() {
+var _this = this;
+
+$(document).ready(function (message) {
 
         // const socket = io("http://localhost:8000", { transports: ["websocket"] });
         //
@@ -31,10 +33,13 @@ $(document).ready(function() {
                 alterMessageInvalidBid()
             }
             else {
-                const highestBidDisplay = document.getElementById('highestBid');
-                highestBidDisplay.innerHTML = 'Highest Bid: $' + data.price.toFixed(2);
-                const msg = data.username + ' offered $' + data.price.toFixed(2) + ' for ' + data.productName + '!'
-                $("#price").append('<li>'+msg+'</li>');
+                if (data.productId == _this.product_id){
+                    const highestBidDisplay = document.getElementById('highestBid');
+                    highestBidDisplay.innerHTML = 'Highest Bid: $' + data.price.toFixed(2);
+                    const msg = data.username + ' offered $' + data.price.toFixed(2) + ' for ' + data.productName + '!'
+                    $("#price").append('<li>'+msg+'</li>');
+                }
+
             }
 
             console.log('Received message');
